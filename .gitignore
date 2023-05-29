@@ -77,3 +77,6 @@ crashlytics-build.properties
 package.json
 package-lock.json
 commitlint.config.js
+
+# Jetbrains
+/.idea/
