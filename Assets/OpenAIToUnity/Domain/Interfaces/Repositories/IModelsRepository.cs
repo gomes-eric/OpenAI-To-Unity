@@ -1,0 +1,21 @@
+﻿using OpenAIToUnity.Domain.Entities.Requests;
+using OpenAIToUnity.Domain.Entities.Responses;
+using UnityEngine;
+
+namespace OpenAIToUnity.Domain.Interfaces.Repositories
+{
+    public interface IModelsRepository
+    {
+        public delegate void OnListModelsFailureCallback(Error error);
+
+        public delegate void OnListModelsSuccessCallback(ListModelsResponse response);
+
+        public delegate void OnRetrieveModelFailureCallback(Error error);
+
+        public delegate void OnRetrieveModelSuccessCallback(RetrieveModelResponse response);
+
+        public void ListModels(OnListModelsSuccessCallback onSuccessCallback, OnListModelsFailureCallback onFailureCallback);
+
+        public void RetrieveModel(RetrieveModelRequest request, OnRetrieveModelSuccessCallback onSuccessCallback, OnRetrieveModelFailureCallback onFailureCallback);
+    }
+}
