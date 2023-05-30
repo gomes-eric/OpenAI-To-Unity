@@ -125,7 +125,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                Debug.LogException(e);
             }
         }
 
@@ -152,7 +152,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                Debug.LogException(e);
             }
         }
 
@@ -179,7 +179,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                Debug.LogException(e);
             }
         }
     }
