@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,10 +21,10 @@ namespace OpenAIToUnity.Infrastructure.Network
         {
             DefaultRequestHeaders =
             {
-                Authorization = new AuthenticationHeaderValue("Bearer", OpenAIConstants.ApiKey),
-                Accept = { new MediaTypeWithQualityHeaderValue("application/json") }
+                Authorization = new AuthenticationHeaderValue(OpenAIConstants.AuthenticationScheme, OpenAIConstants.ApiKey),
+                Accept = { new MediaTypeWithQualityHeaderValue(OpenAIConstants.MediaType) }
             },
-            Timeout = TimeSpan.FromSeconds(OpenAIConstants.Timeout)
+            Timeout = TimeSpan.FromSeconds(OpenAIConstants.SecondsTimeout)
         };
 
         private static Uri BuildQueryUri<T>(string endpoint, T request)
@@ -108,15 +109,15 @@ namespace OpenAIToUnity.Infrastructure.Network
             {
                 var queryUri = BuildQueryUri(endpoint, request);
                 var response = await HttpClient.GetAsync(queryUri);
-                var content = await response.Content.ReadAsStringAsync();
+                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(content));
+                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(responseContent));
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(content)["error"]!.ToString())!;
+                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString())!;
 
                     error.HttpError = response.StatusCode.ToString();
 
@@ -134,16 +135,17 @@ namespace OpenAIToUnity.Infrastructure.Network
             try
             {
                 var bodyUri = BuildBodyUri(endpoint, request);
-                var response = await HttpClient.PostAsync(bodyUri.Item1, new StringContent(bodyUri.Item2));
-                var content = await response.Content.ReadAsStringAsync();
+                var requestContent = new StringContent(bodyUri.Item2, Encoding.UTF8, OpenAIConstants.MediaType);
+                var response = await HttpClient.PostAsync(bodyUri.Item1, requestContent);
+                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(content));
+                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(responseContent));
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(content)["error"]!.ToString())!;
+                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString())!;
 
                     error.HttpError = response.StatusCode.ToString();
 
@@ -162,15 +164,15 @@ namespace OpenAIToUnity.Infrastructure.Network
             {
                 var queryUri = BuildQueryUri(endpoint, request);
                 var response = await HttpClient.DeleteAsync(queryUri);
-                var content = await response.Content.ReadAsStringAsync();
+                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(content));
+                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(responseContent));
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(content)["error"]!.ToString())!;
+                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString())!;
 
                     error.HttpError = response.StatusCode.ToString();
 
