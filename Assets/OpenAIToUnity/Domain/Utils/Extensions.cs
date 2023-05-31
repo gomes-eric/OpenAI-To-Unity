@@ -1,6 +1,6 @@
 ﻿using System;
-using OpenAIToUnity.Domain.Entities.Requests;
 using OpenAIToUnity.Domain.Entities.Responses;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
@@ -33,17 +33,31 @@ namespace OpenAIToUnity.Domain.Utils
         #endregion
 
         #region Completions
-        
+
         public static Action<CreateCompletionResponse> ToAction(this OnCreateCompletionSuccessCallback onSuccessCallback)
         {
             return new Action<CreateCompletionResponse>(onSuccessCallback);
         }
-        
+
         public static Action<Error> ToAction(this OnCreateCompletionFailureCallback onFailureCallback)
         {
             return new Action<Error>(onFailureCallback);
         }
-        
+
+        #endregion
+
+        #region Chhat
+
+        public static Action<CreateChatCompletionResponse> ToAction(this OnCreateChatCompletionSuccessCallback onSuccessCallback)
+        {
+            return new Action<CreateChatCompletionResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnCreateChatCompletionFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
         #endregion
     }
 }

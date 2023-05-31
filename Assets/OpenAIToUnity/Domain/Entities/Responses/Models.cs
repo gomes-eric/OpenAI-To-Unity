@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    [Serializable]
     public struct Permission
     {
         [JsonProperty("id")] public string Id { get; set; }
@@ -32,7 +30,6 @@ namespace OpenAIToUnity.Domain.Entities.Responses
         [JsonProperty("is_blocking")] public bool? IsBlocking { get; set; }
     }
 
-    [Serializable]
     public struct Model
     {
         [JsonProperty("id")] public string Id { get; set; }
@@ -43,19 +40,18 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("owned_by")] public string OwnedBy { get; set; }
 
-        [JsonProperty("permission")] public List<Permission> Permission { get; set; }
+        [JsonProperty("permission")] public List<Permission?> Permission { get; set; }
 
         [JsonProperty("root")] public string Root { get; set; }
 
         [JsonProperty("parent")] public string Parent { get; set; }
     }
 
-    [Serializable]
     public struct ListModelsResponse
     {
         [JsonProperty("object")] public string Object { get; set; }
 
-        [JsonProperty("data")] public List<Model> Data { get; set; }
+        [JsonProperty("data")] public List<Model?> Data { get; set; }
     }
 
     public struct RetrieveModelResponse
@@ -68,7 +64,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("owned_by")] public string OwnedBy { get; set; }
 
-        [JsonProperty("permission")] public List<Permission> Permission { get; set; }
+        [JsonProperty("permission")] public List<Permission?> Permission { get; set; }
 
         [JsonProperty("root")] public string Root { get; set; }
 

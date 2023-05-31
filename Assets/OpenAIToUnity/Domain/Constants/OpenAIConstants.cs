@@ -11,5 +11,6 @@
         // Endpoints
         public const string ModelsEndpoint = "https://api.openai.com/v1/models";
         public const string CompletionsEndpoint = "https://api.openai.com/v1/completions";
+        public const string ChatEndpoint = "https://api.openai.com/v1/chat/completions";
     }
 }

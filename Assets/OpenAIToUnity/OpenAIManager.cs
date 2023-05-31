@@ -1,5 +1,6 @@
 ﻿using OpenAIToUnity.Domain.Entities.Requests;
 using OpenAIToUnity.Infrastructure.Data.Repositories;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
@@ -25,6 +26,14 @@ namespace OpenAIToUnity
             public static void CreateCompletion(CreateCompletionRequest request, OnCreateCompletionSuccessCallback onSuccessCallback, OnCreateCompletionFailureCallback onFailureCallback)
             {
                 CompletionsRepository.Instance.CreateCompletion(request, onSuccessCallback, onFailureCallback);
+            }
+        }
+
+        public static class Chat
+        {
+            public static void CreateChatCompletion(CreateChatCompletionRequest request, OnCreateChatCompletionSuccessCallback onSuccessCallback, OnCreateChatCompletionFailureCallback onFailureCallback)
+            {
+                ChatRepository.Instance.CreateChatCompletion(request, onSuccessCallback, onFailureCallback);
             }
         }
     }

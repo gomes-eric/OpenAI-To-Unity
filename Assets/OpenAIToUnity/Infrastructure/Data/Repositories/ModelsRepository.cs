@@ -37,7 +37,7 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 onFailureCallback.ToAction()));
         }
 
-        #region Singleton Pattern
+        #region Singleton
 
         private static ModelsRepository _instance;
 
