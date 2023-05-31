@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
     [Serializable]
-    public class Error
+    public struct Error
     {
         [JsonProperty("message")] public string Message { get; set; }
 

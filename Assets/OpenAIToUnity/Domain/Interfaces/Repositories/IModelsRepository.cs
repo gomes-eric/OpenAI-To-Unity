@@ -1,6 +1,5 @@
 ﻿using OpenAIToUnity.Domain.Entities.Requests;
 using OpenAIToUnity.Domain.Entities.Responses;
-using UnityEngine;
 
 namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {

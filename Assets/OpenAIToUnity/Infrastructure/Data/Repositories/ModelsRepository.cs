@@ -16,11 +16,11 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => Task.FromResult(NetworkManager.GetRequest<string, ListModelsResponse>(
+                Task.Run(() => NetworkManager.GetRequest<string, ListModelsResponse>(
                     OpenAIConstants.ModelsEndpoint,
                     null,
                     onSuccessCallback.ToAction(),
-                    onFailureCallback.ToAction())));
+                    onFailureCallback.ToAction()));
             }
             catch (Exception e)
             {
@@ -30,11 +30,11 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 
         public void RetrieveModel(RetrieveModelRequest request, IModelsRepository.OnRetrieveModelSuccessCallback onSuccessCallback, IModelsRepository.OnRetrieveModelFailureCallback onFailureCallback)
         {
-            Task.Run(() => Task.FromResult(NetworkManager.GetRequest(
+            Task.Run(() => NetworkManager.GetRequest(
                 $"{OpenAIConstants.ModelsEndpoint}/{{model}}",
                 request,
                 onSuccessCallback.ToAction(),
-                onFailureCallback.ToAction())));
+                onFailureCallback.ToAction()));
         }
 
         #region Singleton Pattern
