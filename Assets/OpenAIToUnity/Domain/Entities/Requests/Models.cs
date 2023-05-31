@@ -1,9 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace OpenAIToUnity.Domain.Entities.Requests
 {
-    [Serializable]
     public struct RetrieveModelRequest
     {
         public RetrieveModelRequest(string model)

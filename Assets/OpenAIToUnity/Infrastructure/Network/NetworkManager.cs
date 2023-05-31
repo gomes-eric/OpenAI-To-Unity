@@ -79,6 +79,10 @@ namespace OpenAIToUnity.Infrastructure.Network
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .Where(p => p.GetValue(request) != null)
                     .ToArray();
+                var jsonSerializer = new JsonSerializer
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
 
                 foreach (var property in requestProperties)
                 {
@@ -95,7 +99,7 @@ namespace OpenAIToUnity.Infrastructure.Network
                     }
                     else if (bodyKey != null)
                     {
-                        requestBody[bodyKey] = JToken.FromObject(property.GetValue(request));
+                        requestBody[bodyKey] = JToken.FromObject(property.GetValue(request), jsonSerializer);
                     }
                 }
             }

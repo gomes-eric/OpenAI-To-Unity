@@ -5,13 +5,13 @@ namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {
     public interface IModelsRepository
     {
-        public delegate void OnListModelsFailureCallback(Error error);
-
         public delegate void OnListModelsSuccessCallback(ListModelsResponse response);
 
-        public delegate void OnRetrieveModelFailureCallback(Error error);
+        public delegate void OnListModelsFailureCallback(Error error);
 
         public delegate void OnRetrieveModelSuccessCallback(RetrieveModelResponse response);
+
+        public delegate void OnRetrieveModelFailureCallback(Error error);
 
         public void ListModels(OnListModelsSuccessCallback onSuccessCallback, OnListModelsFailureCallback onFailureCallback);
 

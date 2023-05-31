@@ -1,9 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    [Serializable]
     public struct Error
     {
         [JsonProperty("message")] public string Message { get; set; }
