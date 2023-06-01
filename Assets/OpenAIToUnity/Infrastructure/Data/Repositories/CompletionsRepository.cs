@@ -16,11 +16,12 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(async () => await NetworkManager.PostRequest(
+                Task.Run(async () => await NetworkManager.JsonPostRequest(
                     OpenAIConstants.CompletionsEndpoint,
                     request,
                     onSuccessCallback.ToAction(),
-                    onFailureCallback.ToAction()));
+                    onFailureCallback.ToAction()
+                ));
             }
             catch (Exception e)
             {

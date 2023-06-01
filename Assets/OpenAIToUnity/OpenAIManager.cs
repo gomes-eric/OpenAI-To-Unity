@@ -3,6 +3,7 @@ using OpenAIToUnity.Infrastructure.Data.Repositories;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IImagesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
 namespace OpenAIToUnity
@@ -43,6 +44,24 @@ namespace OpenAIToUnity
             public static void CreateEdit(CreateEditRequest request, OnCreateEditSuccessCallback onSuccessCallback, OnCreateEditFailureCallback onFailureCallback)
             {
                 EditsRepository.Instance.CreateEdit(request, onSuccessCallback, onFailureCallback);
+            }
+        }
+
+        public static class Images
+        {
+            public static void CreateImage(CreateImageRequest request, OnCreateImageSuccessCallback onSuccessCallback, OnCreateImageFailureCallback onFailureCallback)
+            {
+                ImagesRepository.Instance.CreateImage(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void CreateImageEdit(CreateImageEditRequest request, OnCreateImageEditSuccessCallback onSuccessCallback, OnCreateImageEditFailureCallback onFailureCallback)
+            {
+                ImagesRepository.Instance.CreateImageEdit(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void CreateImageVariation(CreateImageVariationRequest request, OnCreateImageVariationSuccessCallback onSuccessCallback, OnCreateImageVariationFailureCallback onFailureCallback)
+            {
+                ImagesRepository.Instance.CreateImageVariation(request, onSuccessCallback, onFailureCallback);
             }
         }
     }

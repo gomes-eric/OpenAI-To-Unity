@@ -20,7 +20,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                     OpenAIConstants.ModelsEndpoint,
                     null,
                     onSuccessCallback.ToAction(),
-                    onFailureCallback.ToAction()));
+                    onFailureCallback.ToAction()
+                ));
             }
             catch (Exception e)
             {
@@ -34,7 +35,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 $"{OpenAIConstants.ModelsEndpoint}/{{model}}",
                 request,
                 onSuccessCallback.ToAction(),
-                onFailureCallback.ToAction()));
+                onFailureCallback.ToAction()
+            ));
         }
 
         #region Singleton
