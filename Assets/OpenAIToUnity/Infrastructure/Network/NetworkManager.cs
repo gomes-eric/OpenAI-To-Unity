@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +24,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             DefaultRequestHeaders =
             {
                 Authorization = new AuthenticationHeaderValue(OpenAIConstants.AuthenticationScheme, OpenAIConstants.ApiKey),
-                Accept = { new MediaTypeWithQualityHeaderValue(OpenAIConstants.MediaType) }
+                Accept = { new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json) }
             },
             Timeout = TimeSpan.FromSeconds(OpenAIConstants.SecondsTimeout)
         };
@@ -35,8 +37,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             {
                 var requestProperties = request.GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(p => p.GetValue(request) != null)
-                    .ToArray();
+                    .Where(p => p.GetValue(request) != null);
                 var queryParams = new Dictionary<string, string>();
 
                 foreach (var property in requestProperties)
@@ -68,7 +69,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             return uriBuilder.Uri;
         }
 
-        private static Tuple<Uri, string> BuildBodyUri<T>(string endpoint, T request)
+        private static Tuple<Uri, string> BuildJsonBodyUri<T>(string endpoint, T request)
         {
             var uriBuilder = new UriBuilder(endpoint);
             var requestBody = new JObject();
@@ -77,8 +78,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             {
                 var requestProperties = request.GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(p => p.GetValue(request) != null)
-                    .ToArray();
+                    .Where(p => p.GetValue(request) != null);
                 var jsonSerializer = new JsonSerializer
                 {
                     NullValueHandling = NullValueHandling.Ignore
@@ -107,6 +107,59 @@ namespace OpenAIToUnity.Infrastructure.Network
             return new Tuple<Uri, string>(uriBuilder.Uri, requestBody.ToString());
         }
 
+        private static Tuple<Uri, MultipartFormDataContent> BuildFormBodyUri<T>(string endpoint, T request)
+        {
+            var uriBuilder = new UriBuilder(endpoint);
+            var requestBody = new MultipartFormDataContent();
+
+            if (request != null)
+            {
+                var requestProperties = request.GetType()
+                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(p => p.GetValue(request) != null);
+
+                foreach (var property in requestProperties)
+                {
+                    var jsonPropertyAttribute = property.GetCustomAttribute<JsonPropertyAttribute>();
+
+                    if (jsonPropertyAttribute == null) continue;
+
+                    var uriKey = WebUtility.UrlEncode($"{{{jsonPropertyAttribute.PropertyName}}}");
+                    var bodyKey = jsonPropertyAttribute.PropertyName;
+
+                    if (uriKey != null && uriBuilder.Path.Contains(uriKey))
+                    {
+                        uriBuilder.Path = uriBuilder.Path.Replace(uriKey, WebUtility.UrlEncode(property.GetValue(request).ToString()));
+                    }
+                    else if (bodyKey != null)
+                    {
+                        var propertyValue = property.GetValue(request);
+
+                        switch (propertyValue)
+                        {
+                            case FileStream fileStream:
+                            {
+                                using var fileContent = new ByteArrayContent(File.ReadAllBytes(fileStream.Name))
+                                {
+                                    Headers = { ContentType = MediaTypeHeaderValue.Parse(OpenAIConstants.PngMediaType) }
+                                };
+
+                                requestBody.Add(fileContent, bodyKey, Path.GetFileName(fileStream.Name));
+
+                                break;
+                            }
+                            default:
+                                requestBody.Add(new StringContent(propertyValue.ToString()), bodyKey);
+
+                                break;
+                        }
+                    }
+                }
+            }
+
+            return new Tuple<Uri, MultipartFormDataContent>(uriBuilder.Uri, requestBody);
+        }
+
         public static async Task GetRequest<T1, T2>(string endpoint, T1 request, Action<T2> onSuccessCallback, Action<Error> onFailureCallback)
         {
             try
@@ -121,7 +174,7 @@ namespace OpenAIToUnity.Infrastructure.Network
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString())!;
+                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString());
 
                     error.HttpError = response.StatusCode.ToString();
 
@@ -134,12 +187,12 @@ namespace OpenAIToUnity.Infrastructure.Network
             }
         }
 
-        public static async Task PostRequest<T1, T2>(string endpoint, T1 request, Action<T2> onSuccessCallback, Action<Error> onFailureCallback)
+        public static async Task JsonPostRequest<T1, T2>(string endpoint, T1 request, Action<T2> onSuccessCallback, Action<Error> onFailureCallback)
         {
             try
             {
-                var bodyUri = BuildBodyUri(endpoint, request);
-                var requestContent = new StringContent(bodyUri.Item2, Encoding.UTF8, OpenAIConstants.MediaType);
+                var bodyUri = BuildJsonBodyUri(endpoint, request);
+                var requestContent = new StringContent(bodyUri.Item2, Encoding.UTF8, MediaTypeNames.Application.Json);
                 var response = await HttpClient.PostAsync(bodyUri.Item1, requestContent);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
@@ -149,7 +202,34 @@ namespace OpenAIToUnity.Infrastructure.Network
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString())!;
+                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString());
+
+                    error.HttpError = response.StatusCode.ToString();
+
+                    onFailureCallback.Invoke(error);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
+
+        public static async Task FormPostRequest<T1, T2>(string endpoint, T1 request, Action<T2> onSuccessCallback, Action<Error> onFailureCallback)
+        {
+            try
+            {
+                var bodyUri = BuildFormBodyUri(endpoint, request);
+                var response = await HttpClient.PostAsync(bodyUri.Item1, bodyUri.Item2);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(responseContent));
+                }
+                else
+                {
+                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString());
 
                     error.HttpError = response.StatusCode.ToString();
 
@@ -176,7 +256,7 @@ namespace OpenAIToUnity.Infrastructure.Network
                 }
                 else
                 {
-                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString())!;
+                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString());
 
                     error.HttpError = response.StatusCode.ToString();
 

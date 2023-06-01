@@ -16,8 +16,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.PostRequest(
-                    OpenAIConstants.ChatEndpoint,
+                Task.Run(() => NetworkManager.JsonPostRequest(
+                    $"{OpenAIConstants.ChatEndpoint}/completions",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()

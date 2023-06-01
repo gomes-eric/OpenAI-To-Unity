@@ -16,7 +16,7 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.PostRequest(
+                Task.Run(() => NetworkManager.JsonPostRequest(
                     OpenAIConstants.EditsEndpoint,
                     request,
                     onSuccessCallback.ToAction(),
