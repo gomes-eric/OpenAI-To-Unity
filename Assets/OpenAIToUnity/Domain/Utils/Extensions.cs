@@ -2,6 +2,7 @@
 using OpenAIToUnity.Domain.Entities.Responses;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
 namespace OpenAIToUnity.Domain.Utils
@@ -46,7 +47,7 @@ namespace OpenAIToUnity.Domain.Utils
 
         #endregion
 
-        #region Chhat
+        #region Chat
 
         public static Action<CreateChatCompletionResponse> ToAction(this OnCreateChatCompletionSuccessCallback onSuccessCallback)
         {
@@ -54,6 +55,20 @@ namespace OpenAIToUnity.Domain.Utils
         }
 
         public static Action<Error> ToAction(this OnCreateChatCompletionFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        #endregion
+
+        #region Edits
+
+        public static Action<CreateEditResponse> ToAction(this OnCreateEditSuccessCallback onSuccessCallback)
+        {
+            return new Action<CreateEditResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnCreateEditFailureCallback onFailureCallback)
         {
             return new Action<Error>(onFailureCallback);
         }

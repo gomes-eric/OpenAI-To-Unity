@@ -4,7 +4,7 @@ using OpenAIToUnity.Domain.Entities.Common;
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    public struct CompletionChoice
+    public struct CompletionsChoice
     {
         [JsonProperty("text")] public string Text { get; set; }
 
@@ -25,7 +25,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("choices")] public List<CompletionChoice?> Choices { get; set; }
+        [JsonProperty("choices")] public List<CompletionsChoice?> Choices { get; set; }
 
         [JsonProperty("usage")] public Usage? Usage { get; set; }
     }
