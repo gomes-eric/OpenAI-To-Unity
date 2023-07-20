@@ -8,7 +8,7 @@ namespace OpenAIToUnity.Domain.Interfaces.Repositories
         public delegate void OnCreateEditSuccessCallback(CreateEditResponse response);
 
         public delegate void OnCreateEditFailureCallback(Error error);
-        
+
         public void CreateEdit(CreateEditRequest request, OnCreateEditSuccessCallback onSuccessCallback, OnCreateEditFailureCallback onFailureCallback);
     }
 }

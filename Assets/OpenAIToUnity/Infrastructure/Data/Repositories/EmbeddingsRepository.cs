@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests;
@@ -6,18 +6,17 @@ using OpenAIToUnity.Domain.Interfaces.Repositories;
 using OpenAIToUnity.Domain.Utils;
 using OpenAIToUnity.Infrastructure.Network;
 using UnityEngine;
-using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
 
 namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
-    public class EditsRepository : IEditsRepository
+    public class EmbeddingsRepository : IEmbeddingsRepository
     {
-        public void CreateEdit(CreateEditRequest request, OnCreateEditSuccessCallback onSuccessCallback, OnCreateEditFailureCallback onFailureCallback)
+        public void CreateEmbeddings(CreateEmbeddingsRequest request, IEmbeddingsRepository.OnCreateEmbeddingsSuccessCallback onSuccessCallback, IEmbeddingsRepository.OnCreateEmbeddingsFailureCallback onFailureCallback)
         {
             try
             {
                 Task.Run(() => NetworkManager.JsonPostRequest(
-                    OpenAIConstants.EditsEndpoint,
+                    OpenAIConstants.EmbeddingsEndpoint,
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -31,13 +30,13 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 
         #region Singleton
 
-        private static EditsRepository _instance;
+        private static EmbeddingsRepository _instance;
 
-        private EditsRepository()
+        private EmbeddingsRepository()
         {
         }
 
-        public static EditsRepository Instance => _instance ??= new EditsRepository();
+        public static EmbeddingsRepository Instance => _instance ??= new EmbeddingsRepository();
 
         #endregion
     }
