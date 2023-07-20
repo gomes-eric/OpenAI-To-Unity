@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    public struct Data
+    public struct ImagesData
     {
         [JsonProperty("url")] public string Url { get; set; }
     }
@@ -12,20 +12,20 @@ namespace OpenAIToUnity.Domain.Entities.Responses
     {
         [JsonProperty("created")] public int? Created { get; set; }
 
-        [JsonProperty("data")] public List<Data?> Data { get; set; }
+        [JsonProperty("data")] public List<ImagesData?> Data { get; set; }
     }
 
     public struct CreateImageEditResponse
     {
         [JsonProperty("created")] public int? Created { get; set; }
 
-        [JsonProperty("data")] public List<Data?> Data { get; set; }
+        [JsonProperty("data")] public List<ImagesData?> Data { get; set; }
     }
 
     public struct CreateImageVariationResponse
     {
         [JsonProperty("created")] public int? Created { get; set; }
 
-        [JsonProperty("data")] public List<Data?> Data { get; set; }
+        [JsonProperty("data")] public List<ImagesData?> Data { get; set; }
     }
 }

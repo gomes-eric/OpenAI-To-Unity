@@ -14,5 +14,6 @@
         public const string ChatEndpoint = "https://api.openai.com/v1/chat";
         public const string EditsEndpoint = "https://api.openai.com/v1/edits";
         public const string ImagesEndpoint = "https://api.openai.com/v1/images";
+        public const string EmbeddingsEndpoint = "https://api.openai.com/v1/embeddings";
     }
 }

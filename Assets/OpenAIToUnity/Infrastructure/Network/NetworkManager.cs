@@ -37,15 +37,15 @@ namespace OpenAIToUnity.Infrastructure.Network
             {
                 var requestProperties = request.GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(p => p.GetValue(request) != null);
+                    .Where(p => p.GetValue(request) != null)
+                    .Select(p => (Property: p, Attribute: p.GetCustomAttribute<JsonPropertyAttribute>()))
+                    .Where(x => x.Attribute != null)
+                    .ToList();
+
                 var queryParams = new Dictionary<string, string>();
 
-                foreach (var property in requestProperties)
+                foreach (var (property, jsonPropertyAttribute) in requestProperties)
                 {
-                    var jsonPropertyAttribute = property.GetCustomAttribute<JsonPropertyAttribute>();
-
-                    if (jsonPropertyAttribute == null) continue;
-
                     var uriKey = WebUtility.UrlEncode($"{{{jsonPropertyAttribute.PropertyName}}}");
                     var queryKey = WebUtility.UrlEncode(jsonPropertyAttribute.PropertyName);
                     var value = WebUtility.UrlEncode(property.GetValue(request).ToString());
@@ -78,18 +78,18 @@ namespace OpenAIToUnity.Infrastructure.Network
             {
                 var requestProperties = request.GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(p => p.GetValue(request) != null);
+                    .Where(p => p.GetValue(request) != null)
+                    .Select(p => (Property: p, Attribute: p.GetCustomAttribute<JsonPropertyAttribute>()))
+                    .Where(x => x.Attribute != null)
+                    .ToList();
+
                 var jsonSerializer = new JsonSerializer
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 };
 
-                foreach (var property in requestProperties)
+                foreach (var (property, jsonPropertyAttribute) in requestProperties)
                 {
-                    var jsonPropertyAttribute = property.GetCustomAttribute<JsonPropertyAttribute>();
-
-                    if (jsonPropertyAttribute == null) continue;
-
                     var uriKey = WebUtility.UrlEncode($"{{{jsonPropertyAttribute.PropertyName}}}");
                     var bodyKey = jsonPropertyAttribute.PropertyName;
 
@@ -116,14 +116,13 @@ namespace OpenAIToUnity.Infrastructure.Network
             {
                 var requestProperties = request.GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(p => p.GetValue(request) != null);
+                    .Where(p => p.GetValue(request) != null)
+                    .Select(p => (Property: p, Attribute: p.GetCustomAttribute<JsonPropertyAttribute>()))
+                    .Where(x => x.Attribute != null)
+                    .ToList();
 
-                foreach (var property in requestProperties)
+                foreach (var (property, jsonPropertyAttribute) in requestProperties)
                 {
-                    var jsonPropertyAttribute = property.GetCustomAttribute<JsonPropertyAttribute>();
-
-                    if (jsonPropertyAttribute == null) continue;
-
                     var uriKey = WebUtility.UrlEncode($"{{{jsonPropertyAttribute.PropertyName}}}");
                     var bodyKey = jsonPropertyAttribute.PropertyName;
 
@@ -138,16 +137,16 @@ namespace OpenAIToUnity.Infrastructure.Network
                         switch (propertyValue)
                         {
                             case FileStream fileStream:
-                            {
-                                using var fileContent = new ByteArrayContent(File.ReadAllBytes(fileStream.Name))
                                 {
-                                    Headers = { ContentType = MediaTypeHeaderValue.Parse(OpenAIConstants.PngMediaType) }
-                                };
+                                    using var fileContent = new ByteArrayContent(File.ReadAllBytes(fileStream.Name))
+                                    {
+                                        Headers = { ContentType = MediaTypeHeaderValue.Parse(OpenAIConstants.PngMediaType) }
+                                    };
 
-                                requestBody.Add(fileContent, bodyKey, Path.GetFileName(fileStream.Name));
+                                    requestBody.Add(fileContent, bodyKey, Path.GetFileName(fileStream.Name));
 
-                                break;
-                            }
+                                    break;
+                                }
                             default:
                                 requestBody.Add(new StringContent(propertyValue.ToString()), bodyKey);
 
@@ -165,8 +164,8 @@ namespace OpenAIToUnity.Infrastructure.Network
             try
             {
                 var queryUri = BuildQueryUri(endpoint, request);
-                var response = await HttpClient.GetAsync(queryUri);
-                var responseContent = await response.Content.ReadAsStringAsync();
+                var response = await HttpClient.GetAsync(queryUri).ConfigureAwait(false);
+                var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -193,8 +192,8 @@ namespace OpenAIToUnity.Infrastructure.Network
             {
                 var bodyUri = BuildJsonBodyUri(endpoint, request);
                 var requestContent = new StringContent(bodyUri.Item2, Encoding.UTF8, MediaTypeNames.Application.Json);
-                var response = await HttpClient.PostAsync(bodyUri.Item1, requestContent);
-                var responseContent = await response.Content.ReadAsStringAsync();
+                var response = await HttpClient.PostAsync(bodyUri.Item1, requestContent).ConfigureAwait(false);
+                var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -220,8 +219,8 @@ namespace OpenAIToUnity.Infrastructure.Network
             try
             {
                 var bodyUri = BuildFormBodyUri(endpoint, request);
-                var response = await HttpClient.PostAsync(bodyUri.Item1, bodyUri.Item2);
-                var responseContent = await response.Content.ReadAsStringAsync();
+                var response = await HttpClient.PostAsync(bodyUri.Item1, bodyUri.Item2).ConfigureAwait(false);
+                var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -247,8 +246,8 @@ namespace OpenAIToUnity.Infrastructure.Network
             try
             {
                 var queryUri = BuildQueryUri(endpoint, request);
-                var response = await HttpClient.DeleteAsync(queryUri);
-                var responseContent = await response.Content.ReadAsStringAsync();
+                var response = await HttpClient.DeleteAsync(queryUri).ConfigureAwait(false);
+                var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {
