@@ -42,14 +42,14 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
             public Builder SetSize(ImageSize size)
             {
-                _request.Size = size.ToSize();
+                _request.Size = size.ToRequest();
 
                 return this;
             }
 
             public Builder SetResponseFormat(ImageResponseFormat responseFormat)
             {
-                _request.ResponseFormat = responseFormat.ToFormat();
+                _request.ResponseFormat = responseFormat.ToRequest();
 
                 return this;
             }

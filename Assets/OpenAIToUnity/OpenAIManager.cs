@@ -5,6 +5,7 @@ using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEmbeddingsRepository;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IFilesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IImagesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
@@ -85,6 +86,34 @@ namespace OpenAIToUnity
             public static void CreateTranslation(CreateTranslationRequest request, OnCreateTranslationSuccessCallback onSuccessCallback, OnCreateTranslationFailureCallback onFailureCallback)
             {
                 AudioRepository.Instance.CreateTranslation(request, onSuccessCallback, onFailureCallback);
+            }
+        }
+
+        public static class Files
+        {
+            public static void ListFiles(OnListFilesSuccessCallback onSuccessCallback, OnListFilesFailureCallback onFailureCallback)
+            {
+                FilesRepository.Instance.ListFiles(onSuccessCallback, onFailureCallback);
+            }
+
+            public static void UploadFile(UploadFileRequest request, OnUploadFileSuccessCallback onSuccessCallback, OnUploadFileFailureCallback onFailureCallback)
+            {
+                FilesRepository.Instance.UploadFile(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void DeleteFile(DeleteFileRequest request, OnDeleteFileSuccessCallback onSuccessCallback, OnDeleteFileFailureCallback onFailureCallback)
+            {
+                FilesRepository.Instance.DeleteFile(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void RetrieveFile(RetrieveFileRequest request, OnRetrieveFileSuccessCallback onSuccessCallback, OnRetrieveFileFailureCallback onFailureCallback)
+            {
+                FilesRepository.Instance.RetrieveFile(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void RetrieveFileContent(RetrieveFileContentRequest request, OnRetrieveFileContentSuccessCallback onSuccessCallback, OnRetrieveFileContentFailureCallback onFailureCallback)
+            {
+                FilesRepository.Instance.RetrieveFileContent(request, onSuccessCallback, onFailureCallback);
             }
         }
     }

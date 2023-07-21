@@ -4,8 +4,8 @@
     {
         // Configuration
         public const string ApiKey = "YOUR_API_KEY";
+        public const string CacheFolderPath = @"YOUR_CACHE_FOLDER_PATH";
         public const string AuthenticationScheme = "Bearer";
-        public const string PngMediaType = "image/png";
         public const int SecondsTimeout = 60;
 
         // Endpoints
@@ -16,5 +16,6 @@
         public const string ImagesEndpoint = "https://api.openai.com/v1/images";
         public const string EmbeddingsEndpoint = "https://api.openai.com/v1/embeddings";
         public const string AudioEndpoint = "https://api.openai.com/v1/audio";
+        public const string FilesEndpoint = "https://api.openai.com/v1/files";
     }
 }

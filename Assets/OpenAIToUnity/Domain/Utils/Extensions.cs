@@ -7,6 +7,7 @@ using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEmbeddingsRepository;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IFilesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IImagesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
@@ -16,7 +17,7 @@ namespace OpenAIToUnity.Domain.Utils
     {
         #region Types
 
-        public static string ToSize(this ImageSize imageSize)
+        public static string ToRequest(this ImageSize imageSize)
         {
             var field = imageSize.GetType().GetField(imageSize.ToString());
             var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
@@ -24,7 +25,7 @@ namespace OpenAIToUnity.Domain.Utils
             return attribute == null ? imageSize.ToString() : attribute.Description;
         }
 
-        public static string ToFormat(this ImageResponseFormat imageResponseFormat)
+        public static string ToRequest(this ImageResponseFormat imageResponseFormat)
         {
             var field = imageResponseFormat.GetType().GetField(imageResponseFormat.ToString());
             var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
@@ -32,7 +33,7 @@ namespace OpenAIToUnity.Domain.Utils
             return attribute == null ? imageResponseFormat.ToString() : attribute.Description;
         }
 
-        public static string ToFormat(this AudioResponseFormat audioResponseFormat)
+        public static string ToRequest(this AudioResponseFormat audioResponseFormat)
         {
             var field = audioResponseFormat.GetType().GetField(audioResponseFormat.ToString());
             var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
@@ -40,12 +41,20 @@ namespace OpenAIToUnity.Domain.Utils
             return attribute == null ? audioResponseFormat.ToString() : attribute.Description;
         }
 
-        public static string ToCode(this Language language)
+        public static string ToRequest(this Language language)
         {
             var field = language.GetType().GetField(language.ToString());
             var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
             return attribute == null ? language.ToString() : attribute.Description;
+        }
+
+        public static string ToRequest(this Purpose purpose)
+        {
+            var field = purpose.GetType().GetField(purpose.ToString());
+            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+            return attribute == null ? purpose.ToString() : attribute.Description;
         }
 
         #endregion
@@ -182,6 +191,60 @@ namespace OpenAIToUnity.Domain.Utils
         }
 
         public static Action<Error> ToAction(this OnCreateTranslationFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        #endregion
+
+        #region Files
+
+        public static Action<ListFilesResponse> ToAction(this OnListFilesSuccessCallback onSuccessCallback)
+        {
+            return new Action<ListFilesResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnListFilesFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<UploadFileResponse> ToAction(this OnUploadFileSuccessCallback onSuccessCallback)
+        {
+            return new Action<UploadFileResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnUploadFileFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<DeleteFileResponse> ToAction(this OnDeleteFileSuccessCallback onSuccessCallback)
+        {
+            return new Action<DeleteFileResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnDeleteFileFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<RetrieveFileResponse> ToAction(this OnRetrieveFileSuccessCallback onSuccessCallback)
+        {
+            return new Action<RetrieveFileResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnRetrieveFileFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<string> ToAction(this OnRetrieveFileContentSuccessCallback onSuccessCallback)
+        {
+            return new Action<string>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnRetrieveFileContentFailureCallback onFailureCallback)
         {
             return new Action<Error>(onFailureCallback);
         }

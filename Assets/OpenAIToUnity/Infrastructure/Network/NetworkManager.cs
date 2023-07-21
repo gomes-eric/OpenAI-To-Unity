@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Responses;
+using OpenAIToUnity.Domain.Utils;
 using UnityEngine;
 
 namespace OpenAIToUnity.Infrastructure.Network
@@ -138,9 +139,10 @@ namespace OpenAIToUnity.Infrastructure.Network
                         {
                             case FileStream fileStream:
                                 {
+                                    var mediaType = MediaTypeMap.GetMediaType(Path.GetExtension(fileStream.Name));
                                     using var fileContent = new ByteArrayContent(File.ReadAllBytes(fileStream.Name))
                                     {
-                                        Headers = { ContentType = MediaTypeHeaderValue.Parse(OpenAIConstants.PngMediaType) }
+                                        Headers = { ContentType = MediaTypeHeaderValue.Parse(mediaType) }
                                     };
 
                                     requestBody.Add(fileContent, bodyKey, Path.GetFileName(fileStream.Name));
@@ -159,7 +161,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             return new Tuple<Uri, MultipartFormDataContent>(uriBuilder.Uri, requestBody);
         }
 
-        public static async Task GetRequest<T1, T2>(string endpoint, T1 request, Action<T2> onSuccessCallback, Action<Error> onFailureCallback)
+        public static async Task GetStringRequest<T1, T2>(string endpoint, T1 request, Action<T2> onSuccessCallback, Action<Error> onFailureCallback)
         {
             try
             {
@@ -169,7 +171,7 @@ namespace OpenAIToUnity.Infrastructure.Network
 
                 if (response.IsSuccessStatusCode)
                 {
-                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(responseContent));
+                    onSuccessCallback(JsonConvert.DeserializeObject<T2>(responseContent));
                 }
                 else
                 {
@@ -177,7 +179,42 @@ namespace OpenAIToUnity.Infrastructure.Network
 
                     error.HttpError = response.StatusCode.ToString();
 
-                    onFailureCallback.Invoke(error);
+                    onFailureCallback(error);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
+
+        public static async Task GetStreamRequest<T1>(string endpoint, T1 request, Action<string> onSuccessCallback, Action<Error> onFailureCallback)
+        {
+            try
+            {
+                var queryUri = BuildQueryUri(endpoint, request);
+                var response = await HttpClient.GetAsync(queryUri).ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Directory.CreateDirectory(OpenAIConstants.CacheFolderPath);
+
+                    var responseContent = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var fullPath = Path.Combine(OpenAIConstants.CacheFolderPath, response.Content.Headers.ContentDisposition.FileName.Replace("\"", ""));
+                    var fileStream = File.Create(fullPath);
+
+                    await responseContent.CopyToAsync(fileStream).ConfigureAwait(false);
+
+                    onSuccessCallback(fullPath);
+                }
+                else
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var error = JsonConvert.DeserializeObject<Error>(JObject.Parse(responseContent)["error"]!.ToString());
+
+                    error.HttpError = response.StatusCode.ToString();
+
+                    onFailureCallback(error);
                 }
             }
             catch (Exception e)
@@ -197,7 +234,7 @@ namespace OpenAIToUnity.Infrastructure.Network
 
                 if (response.IsSuccessStatusCode)
                 {
-                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(responseContent));
+                    onSuccessCallback(JsonConvert.DeserializeObject<T2>(responseContent));
                 }
                 else
                 {
@@ -205,7 +242,7 @@ namespace OpenAIToUnity.Infrastructure.Network
 
                     error.HttpError = response.StatusCode.ToString();
 
-                    onFailureCallback.Invoke(error);
+                    onFailureCallback(error);
                 }
             }
             catch (Exception e)
@@ -224,7 +261,7 @@ namespace OpenAIToUnity.Infrastructure.Network
 
                 if (response.IsSuccessStatusCode)
                 {
-                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(responseContent));
+                    onSuccessCallback(JsonConvert.DeserializeObject<T2>(responseContent));
                 }
                 else
                 {
@@ -232,7 +269,7 @@ namespace OpenAIToUnity.Infrastructure.Network
 
                     error.HttpError = response.StatusCode.ToString();
 
-                    onFailureCallback.Invoke(error);
+                    onFailureCallback(error);
                 }
             }
             catch (Exception e)
@@ -251,7 +288,7 @@ namespace OpenAIToUnity.Infrastructure.Network
 
                 if (response.IsSuccessStatusCode)
                 {
-                    onSuccessCallback.Invoke(JsonConvert.DeserializeObject<T2>(responseContent));
+                    onSuccessCallback(JsonConvert.DeserializeObject<T2>(responseContent));
                 }
                 else
                 {
@@ -259,7 +296,7 @@ namespace OpenAIToUnity.Infrastructure.Network
 
                     error.HttpError = response.StatusCode.ToString();
 
-                    onFailureCallback.Invoke(error);
+                    onFailureCallback(error);
                 }
             }
             catch (Exception e)
