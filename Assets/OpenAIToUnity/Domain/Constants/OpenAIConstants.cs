@@ -15,5 +15,6 @@
         public const string EditsEndpoint = "https://api.openai.com/v1/edits";
         public const string ImagesEndpoint = "https://api.openai.com/v1/images";
         public const string EmbeddingsEndpoint = "https://api.openai.com/v1/embeddings";
+        public const string AudioEndpoint = "https://api.openai.com/v1/audio";
     }
 }

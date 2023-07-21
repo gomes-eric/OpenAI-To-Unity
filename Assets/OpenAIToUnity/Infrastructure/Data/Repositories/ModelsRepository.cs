@@ -7,12 +7,13 @@ using OpenAIToUnity.Domain.Interfaces.Repositories;
 using OpenAIToUnity.Domain.Utils;
 using OpenAIToUnity.Infrastructure.Network;
 using UnityEngine;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
 namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class ModelsRepository : IModelsRepository
     {
-        public void ListModels(IModelsRepository.OnListModelsSuccessCallback onSuccessCallback, IModelsRepository.OnListModelsFailureCallback onFailureCallback)
+        public void ListModels(OnListModelsSuccessCallback onSuccessCallback, OnListModelsFailureCallback onFailureCallback)
         {
             try
             {
@@ -29,7 +30,7 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
             }
         }
 
-        public void RetrieveModel(RetrieveModelRequest request, IModelsRepository.OnRetrieveModelSuccessCallback onSuccessCallback, IModelsRepository.OnRetrieveModelFailureCallback onFailureCallback)
+        public void RetrieveModel(RetrieveModelRequest request, OnRetrieveModelSuccessCallback onSuccessCallback, OnRetrieveModelFailureCallback onFailureCallback)
         {
             Task.Run(() => NetworkManager.GetRequest(
                 $"{OpenAIConstants.ModelsEndpoint}/{{model}}",

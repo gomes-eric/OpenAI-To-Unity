@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using OpenAIToUnity.Domain.Entities.Responses;
+using OpenAIToUnity.Domain.Types;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IAudioRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
@@ -11,6 +14,42 @@ namespace OpenAIToUnity.Domain.Utils
 {
     public static class Extensions
     {
+        #region Types
+
+        public static string ToSize(this ImageSize imageSize)
+        {
+            var field = imageSize.GetType().GetField(imageSize.ToString());
+            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+            return attribute == null ? imageSize.ToString() : attribute.Description;
+        }
+
+        public static string ToFormat(this ImageResponseFormat imageResponseFormat)
+        {
+            var field = imageResponseFormat.GetType().GetField(imageResponseFormat.ToString());
+            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+            return attribute == null ? imageResponseFormat.ToString() : attribute.Description;
+        }
+
+        public static string ToFormat(this AudioResponseFormat audioResponseFormat)
+        {
+            var field = audioResponseFormat.GetType().GetField(audioResponseFormat.ToString());
+            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+            return attribute == null ? audioResponseFormat.ToString() : attribute.Description;
+        }
+
+        public static string ToCode(this Language language)
+        {
+            var field = language.GetType().GetField(language.ToString());
+            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+            return attribute == null ? language.ToString() : attribute.Description;
+        }
+
+        #endregion
+
         #region Models
 
         public static Action<ListModelsResponse> ToAction(this OnListModelsSuccessCallback onSuccessCallback)
@@ -119,6 +158,30 @@ namespace OpenAIToUnity.Domain.Utils
         }
 
         public static Action<Error> ToAction(this OnCreateEmbeddingsFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        #endregion
+
+        #region Audio
+
+        public static Action<CreateTranscriptionResponse> ToAction(this OnCreateTranscriptionSuccessCallback onSuccessCallback)
+        {
+            return new Action<CreateTranscriptionResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnCreateTranscriptionFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<CreateTranslationResponse> ToAction(this OnCreateTranslationSuccessCallback onSuccessCallback)
+        {
+            return new Action<CreateTranslationResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnCreateTranslationFailureCallback onFailureCallback)
         {
             return new Action<Error>(onFailureCallback);
         }

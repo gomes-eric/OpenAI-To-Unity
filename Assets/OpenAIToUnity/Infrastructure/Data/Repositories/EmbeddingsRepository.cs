@@ -6,12 +6,13 @@ using OpenAIToUnity.Domain.Interfaces.Repositories;
 using OpenAIToUnity.Domain.Utils;
 using OpenAIToUnity.Infrastructure.Network;
 using UnityEngine;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IEmbeddingsRepository;
 
 namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class EmbeddingsRepository : IEmbeddingsRepository
     {
-        public void CreateEmbeddings(CreateEmbeddingsRequest request, IEmbeddingsRepository.OnCreateEmbeddingsSuccessCallback onSuccessCallback, IEmbeddingsRepository.OnCreateEmbeddingsFailureCallback onFailureCallback)
+        public void CreateEmbeddings(CreateEmbeddingsRequest request, OnCreateEmbeddingsSuccessCallback onSuccessCallback, OnCreateEmbeddingsFailureCallback onFailureCallback)
         {
             try
             {

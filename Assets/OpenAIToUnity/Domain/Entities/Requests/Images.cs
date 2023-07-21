@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
+using OpenAIToUnity.Domain.Types;
+using OpenAIToUnity.Domain.Utils;
 
 namespace OpenAIToUnity.Domain.Entities.Requests
 {
@@ -38,16 +40,16 @@ namespace OpenAIToUnity.Domain.Entities.Requests
                 return this;
             }
 
-            public Builder SetSize(string size)
+            public Builder SetSize(ImageSize size)
             {
-                _request.Size = size;
+                _request.Size = size.ToSize();
 
                 return this;
             }
 
-            public Builder SetResponseFormat(string responseFormat)
+            public Builder SetResponseFormat(ImageResponseFormat responseFormat)
             {
-                _request.ResponseFormat = responseFormat;
+                _request.ResponseFormat = responseFormat.ToFormat();
 
                 return this;
             }
