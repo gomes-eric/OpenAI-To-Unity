@@ -51,7 +51,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
             public Builder SetResponseFormat(AudioResponseFormat responseFormat)
             {
-                _request.ResponseFormat = responseFormat.ToFormat();
+                _request.ResponseFormat = responseFormat.ToRequest();
 
                 return this;
             }
@@ -65,7 +65,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
             public Builder SetLanguage(Language language)
             {
-                _request.Language = language.ToCode();
+                _request.Language = language.ToRequest();
 
                 return this;
             }
@@ -121,7 +121,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
             public Builder SetResponseFormat(AudioResponseFormat responseFormat)
             {
-                _request.ResponseFormat = responseFormat.ToFormat();
+                _request.ResponseFormat = responseFormat.ToRequest();
 
                 return this;
             }

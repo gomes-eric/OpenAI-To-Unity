@@ -17,7 +17,7 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.GetRequest<string, ListModelsResponse>(
+                Task.Run(() => NetworkManager.GetStringRequest<string, ListModelsResponse>(
                     OpenAIConstants.ModelsEndpoint,
                     null,
                     onSuccessCallback.ToAction(),
@@ -32,7 +32,7 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 
         public void RetrieveModel(RetrieveModelRequest request, OnRetrieveModelSuccessCallback onSuccessCallback, OnRetrieveModelFailureCallback onFailureCallback)
         {
-            Task.Run(() => NetworkManager.GetRequest(
+            Task.Run(() => NetworkManager.GetStringRequest(
                 $"{OpenAIConstants.ModelsEndpoint}/{{model}}",
                 request,
                 onSuccessCallback.ToAction(),
