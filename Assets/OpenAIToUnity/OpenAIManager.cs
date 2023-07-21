@@ -1,5 +1,6 @@
 ﻿using OpenAIToUnity.Domain.Entities.Requests;
 using OpenAIToUnity.Infrastructure.Data.Repositories;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IAudioRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
@@ -71,6 +72,19 @@ namespace OpenAIToUnity
             public static void CreateEmbeddings(CreateEmbeddingsRequest request, OnCreateEmbeddingsSuccessCallback onSuccessCallback, OnCreateEmbeddingsFailureCallback onFailureCallback)
             {
                 EmbeddingsRepository.Instance.CreateEmbeddings(request, onSuccessCallback, onFailureCallback);
+            }
+        }
+
+        public static class Audio
+        {
+            public static void CreateTranscription(CreateTranscriptionRequest request, OnCreateTranscriptionSuccessCallback onSuccessCallback, OnCreateTranscriptionFailureCallback onFailureCallback)
+            {
+                AudioRepository.Instance.CreateTranscription(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void CreateTranslation(CreateTranslationRequest request, OnCreateTranslationSuccessCallback onSuccessCallback, OnCreateTranslationFailureCallback onFailureCallback)
+            {
+                AudioRepository.Instance.CreateTranslation(request, onSuccessCallback, onFailureCallback);
             }
         }
     }
