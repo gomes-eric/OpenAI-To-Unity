@@ -1,19 +1,18 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 using OpenAIToUnity.Domain.Types;
-using OpenAIToUnity.Domain.Utils;
 
 namespace OpenAIToUnity.Domain.Entities.Requests
 {
-    public struct CreateImageRequest
+    public class CreateImageRequest
     {
         [JsonProperty("prompt")] public string Prompt { get; set; }
 
         [JsonProperty("n")] public int? N { get; set; }
 
-        [JsonProperty("size")] public string Size { get; set; }
+        [JsonProperty("size")] public ImagesSize Size { get; set; }
 
-        [JsonProperty("response_format")] public string ResponseFormat { get; set; }
+        [JsonProperty("response_format")] public ImagesResponseFormat ResponseFormat { get; set; }
 
         [JsonProperty("user")] public string User { get; set; }
 
@@ -40,16 +39,16 @@ namespace OpenAIToUnity.Domain.Entities.Requests
                 return this;
             }
 
-            public Builder SetSize(ImageSize size)
+            public Builder SetSize(ImagesSize size)
             {
-                _request.Size = size.ToRequest();
+                _request.Size = size;
 
                 return this;
             }
 
-            public Builder SetResponseFormat(ImageResponseFormat responseFormat)
+            public Builder SetResponseFormat(ImagesResponseFormat responseFormat)
             {
-                _request.ResponseFormat = responseFormat.ToRequest();
+                _request.ResponseFormat = responseFormat;
 
                 return this;
             }
@@ -68,7 +67,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
         }
     }
 
-    public struct CreateImageEditRequest
+    public class CreateImageEditRequest
     {
         [JsonProperty("image")] public FileStream Image { get; set; }
 
@@ -78,7 +77,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
         [JsonProperty("n")] public int? N { get; set; }
 
-        [JsonProperty("size")] public string Size { get; set; }
+        [JsonProperty("size")] public ImagesSize Size { get; set; }
 
         [JsonProperty("response_format")] public string ResponseFormat { get; set; }
 
@@ -121,7 +120,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
                 return this;
             }
 
-            public Builder SetSize(string size)
+            public Builder SetSize(ImagesSize size)
             {
                 _request.Size = size;
 
@@ -149,13 +148,13 @@ namespace OpenAIToUnity.Domain.Entities.Requests
         }
     }
 
-    public struct CreateImageVariationRequest
+    public class CreateImageVariationRequest
     {
         [JsonProperty("image")] public FileStream Image { get; set; }
 
         [JsonProperty("n")] public int? N { get; set; }
 
-        [JsonProperty("size")] public string Size { get; set; }
+        [JsonProperty("size")] public ImagesSize Size { get; set; }
 
         [JsonProperty("response_format")] public string ResponseFormat { get; set; }
 
@@ -184,7 +183,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
                 return this;
             }
 
-            public Builder SetSize(string size)
+            public Builder SetSize(ImagesSize size)
             {
                 _request.Size = size;
 

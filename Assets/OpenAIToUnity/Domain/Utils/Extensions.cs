@@ -1,13 +1,12 @@
 ﻿using System;
-using System.ComponentModel;
 using OpenAIToUnity.Domain.Entities.Responses;
-using OpenAIToUnity.Domain.Types;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IAudioRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEmbeddingsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IFilesRepository;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IFineTunesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IImagesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
@@ -15,50 +14,6 @@ namespace OpenAIToUnity.Domain.Utils
 {
     public static class Extensions
     {
-        #region Types
-
-        public static string ToRequest(this ImageSize imageSize)
-        {
-            var field = imageSize.GetType().GetField(imageSize.ToString());
-            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-            return attribute == null ? imageSize.ToString() : attribute.Description;
-        }
-
-        public static string ToRequest(this ImageResponseFormat imageResponseFormat)
-        {
-            var field = imageResponseFormat.GetType().GetField(imageResponseFormat.ToString());
-            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-            return attribute == null ? imageResponseFormat.ToString() : attribute.Description;
-        }
-
-        public static string ToRequest(this AudioResponseFormat audioResponseFormat)
-        {
-            var field = audioResponseFormat.GetType().GetField(audioResponseFormat.ToString());
-            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-            return attribute == null ? audioResponseFormat.ToString() : attribute.Description;
-        }
-
-        public static string ToRequest(this Language language)
-        {
-            var field = language.GetType().GetField(language.ToString());
-            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-            return attribute == null ? language.ToString() : attribute.Description;
-        }
-
-        public static string ToRequest(this Purpose purpose)
-        {
-            var field = purpose.GetType().GetField(purpose.ToString());
-            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-
-            return attribute == null ? purpose.ToString() : attribute.Description;
-        }
-
-        #endregion
-
         #region Models
 
         public static Action<ListModelsResponse> ToAction(this OnListModelsSuccessCallback onSuccessCallback)
@@ -245,6 +200,70 @@ namespace OpenAIToUnity.Domain.Utils
         }
 
         public static Action<Error> ToAction(this OnRetrieveFileContentFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        #endregion
+
+        #region FineTunes
+
+        public static Action<CreateFineTuneResponse> ToAction(this OnCreateFineTuneSuccessCallback onSuccessCallback)
+        {
+            return new Action<CreateFineTuneResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnCreateFineTuneFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<ListFineTunesResponse> ToAction(this OnListFineTunesSuccessCallback onSuccessCallback)
+        {
+            return new Action<ListFineTunesResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnListFineTunesFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<RetrieveFineTuneResponse> ToAction(this OnRetrieveFineTuneSuccessCallback onSuccessCallback)
+        {
+            return new Action<RetrieveFineTuneResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnRetrieveFineTuneFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<CancelFineTuneResponse> ToAction(this OnCancelFineTuneSuccessCallback onSuccessCallback)
+        {
+            return new Action<CancelFineTuneResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnCancelFineTuneFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<ListFineTuneEventsResponse> ToAction(this OnListFineTuneEventsSuccessCallback onSuccessCallback)
+        {
+            return new Action<ListFineTuneEventsResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnListFineTuneEventsFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        public static Action<DeleteFineTuneModelResponse> ToAction(this OnDeleteFineTuneModelSuccessCallback onSuccessCallback)
+        {
+            return new Action<DeleteFineTuneModelResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnDeleteFineTuneModelFailureCallback onFailureCallback)
         {
             return new Action<Error>(onFailureCallback);
         }

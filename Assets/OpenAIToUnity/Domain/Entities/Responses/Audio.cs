@@ -2,12 +2,12 @@ using Newtonsoft.Json;
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    public struct CreateTranscriptionResponse
+    public class CreateTranscriptionResponse
     {
         [JsonProperty("text")] public string Text { get; set; }
     }
 
-    public struct CreateTranslationResponse
+    public class CreateTranslationResponse
     {
         [JsonProperty("text")] public string Text { get; set; }
     }

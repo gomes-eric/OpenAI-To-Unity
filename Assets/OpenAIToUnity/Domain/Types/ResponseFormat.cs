@@ -1,19 +1,23 @@
-using System.ComponentModel;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace OpenAIToUnity.Domain.Types
 {
-    public enum ImageResponseFormat
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum ImagesResponseFormat
     {
-        [Description("url")] Url,
-        [Description("b64_json")] B64Json
+        [EnumMember(Value = "url")] Url,
+        [EnumMember(Value = "b64_json")] B64Json
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum AudioResponseFormat
     {
-        [Description("json")] Json,
-        [Description("text")] Text,
-        [Description("srt")] Srt,
-        [Description("verbose_json")] VerboseJson,
-        [Description("vtt")] Vtt
+        [EnumMember(Value = "json")] Json,
+        [EnumMember(Value = "text")] Text,
+        [EnumMember(Value = "srt")] Srt,
+        [EnumMember(Value = "verbose_json")] VerboseJson,
+        [EnumMember(Value = "vtt")] Vtt
     }
 }

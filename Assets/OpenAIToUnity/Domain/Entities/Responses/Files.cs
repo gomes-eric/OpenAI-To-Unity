@@ -1,15 +1,16 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using OpenAIToUnity.Domain.Types;
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    public struct FilesData
+    public class FilesFile
     {
         [JsonProperty("object")] public string Object { get; set; }
 
         [JsonProperty("id")] public string Id { get; set; }
 
-        [JsonProperty("purpose")] public string Purpose { get; set; }
+        [JsonProperty("purpose")] public Purpose Purpose { get; set; }
 
         [JsonProperty("filename")] public string Filename { get; set; }
 
@@ -22,20 +23,20 @@ namespace OpenAIToUnity.Domain.Entities.Responses
         [JsonProperty("status_details")] public string StatusDetails { get; set; }
     }
 
-    public struct ListFilesResponse
+    public class ListFilesResponse
     {
         [JsonProperty("object")] public string Object { get; set; }
 
-        [JsonProperty("data")] public List<FilesData?> Data { get; set; }
+        [JsonProperty("data")] public List<FilesFile> Data { get; set; }
     }
 
-    public struct UploadFileResponse
+    public class UploadFileResponse
     {
         [JsonProperty("object")] public string Object { get; set; }
 
         [JsonProperty("id")] public string Id { get; set; }
 
-        [JsonProperty("purpose")] public string Purpose { get; set; }
+        [JsonProperty("purpose")] public Purpose Purpose { get; set; }
 
         [JsonProperty("filename")] public string Filename { get; set; }
 
@@ -48,7 +49,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses
         [JsonProperty("status_details")] public string StatusDetails { get; set; }
     }
 
-    public struct DeleteFileResponse
+    public class DeleteFileResponse
     {
         [JsonProperty("object")] public string Object { get; set; }
 
@@ -57,13 +58,13 @@ namespace OpenAIToUnity.Domain.Entities.Responses
         [JsonProperty("deleted")] public bool? Deleted { get; set; }
     }
 
-    public struct RetrieveFileResponse
+    public class RetrieveFileResponse
     {
         [JsonProperty("object")] public string Object { get; set; }
 
         [JsonProperty("id")] public string Id { get; set; }
 
-        [JsonProperty("purpose")] public string Purpose { get; set; }
+        [JsonProperty("purpose")] public Purpose Purpose { get; set; }
 
         [JsonProperty("filename")] public string Filename { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace OpenAIToUnity.Domain.Entities.Requests
 {
-    public struct CreateEditRequest
+    public class CreateEditRequest
     {
         [JsonProperty("model")] public string Model { get; set; }
 

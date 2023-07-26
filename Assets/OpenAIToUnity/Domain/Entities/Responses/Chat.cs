@@ -1,26 +1,34 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using OpenAIToUnity.Domain.Entities.Common;
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    public struct Message
+    public class ChatUsage
+    {
+        [JsonProperty("prompt_tokens")] public int? PromptTokens { get; set; }
+
+        [JsonProperty("completion_tokens")] public int? CompletionTokens { get; set; }
+
+        [JsonProperty("total_tokens")] public int? TotalTokens { get; set; }
+    }
+
+    public class ChatResponseMessage
     {
         [JsonProperty("role")] public string Role { get; set; }
 
         [JsonProperty("content")] public string Content { get; set; }
     }
 
-    public struct ChatChoice
+    public class ChatChoice
     {
-        [JsonProperty("message")] public Message? Message { get; set; }
+        [JsonProperty("message")] public ChatResponseMessage Message { get; set; }
 
         [JsonProperty("finish_reason")] public string FinishReason { get; set; }
 
         [JsonProperty("index")] public int? Index { get; set; }
     }
 
-    public struct CreateChatCompletionResponse
+    public class CreateChatCompletionResponse
     {
         [JsonProperty("id")] public string Id { get; set; }
 
@@ -30,8 +38,8 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("usage")] public Usage? Usage { get; set; }
+        [JsonProperty("usage")] public ChatUsage Usage { get; set; }
 
-        [JsonProperty("choices")] public List<ChatChoice?> Choices { get; set; }
+        [JsonProperty("choices")] public List<ChatChoice> Choices { get; set; }
     }
 }

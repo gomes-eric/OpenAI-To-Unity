@@ -1,15 +1,14 @@
 using System.IO;
 using Newtonsoft.Json;
 using OpenAIToUnity.Domain.Types;
-using OpenAIToUnity.Domain.Utils;
 
 namespace OpenAIToUnity.Domain.Entities.Requests
 {
-    public struct UploadFileRequest
+    public class UploadFileRequest
     {
         [JsonProperty("file")] public FileStream File { get; set; }
 
-        [JsonProperty("purpose")] public string Purpose { get; set; }
+        [JsonProperty("purpose")] public Purpose Purpose { get; set; }
 
         public class Builder
         {
@@ -29,7 +28,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
             public Builder SetPurpose(Purpose purpose)
             {
-                _request.Purpose = purpose.ToRequest();
+                _request.Purpose = purpose;
 
                 return this;
             }
@@ -41,7 +40,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
         }
     }
 
-    public struct DeleteFileRequest
+    public class DeleteFileRequest
     {
         [JsonProperty("file_id")] public string FileId { get; set; }
 
@@ -68,7 +67,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
         }
     }
 
-    public struct RetrieveFileRequest
+    public class RetrieveFileRequest
     {
         [JsonProperty("file_id")] public string FileId { get; set; }
 
@@ -95,7 +94,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
         }
     }
 
-    public struct RetrieveFileContentRequest
+    public class RetrieveFileContentRequest
     {
         [JsonProperty("file_id")] public string FileId { get; set; }
 

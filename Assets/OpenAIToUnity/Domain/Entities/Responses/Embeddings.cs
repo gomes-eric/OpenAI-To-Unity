@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using OpenAIToUnity.Domain.Entities.Common;
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    public struct EmbeddingsData
+    public class EmbeddingsData
     {
         [JsonProperty("object")] public string Object { get; set; }
 
@@ -13,14 +12,23 @@ namespace OpenAIToUnity.Domain.Entities.Responses
         [JsonProperty("embedding")] public List<double?> Embedding { get; set; }
     }
 
-    public struct CreateEmbeddingsResponse
+    public class EmbeddingsUsage
+    {
+        [JsonProperty("prompt_tokens")] public int? PromptTokens { get; set; }
+
+        [JsonProperty("completion_tokens")] public int? CompletionTokens { get; set; }
+
+        [JsonProperty("total_tokens")] public int? TotalTokens { get; set; }
+    }
+
+    public class CreateEmbeddingsResponse
     {
         [JsonProperty("object")] public string Object { get; set; }
 
-        [JsonProperty("data")] public List<EmbeddingsData?> Data { get; set; }
+        [JsonProperty("data")] public List<EmbeddingsData> Data { get; set; }
 
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("usage")] public Usage? Usage { get; set; }
+        [JsonProperty("usage")] public EmbeddingsUsage Usage { get; set; }
     }
 }

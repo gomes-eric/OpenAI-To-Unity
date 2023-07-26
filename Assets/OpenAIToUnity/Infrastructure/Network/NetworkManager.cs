@@ -43,34 +43,41 @@ namespace OpenAIToUnity.Infrastructure.Network
                     .Where(x => x.Attribute != null)
                     .ToList();
 
+                var jsonSerializer = new JsonSerializer
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
                 var queryParams = new Dictionary<string, string>();
 
                 foreach (var (property, jsonPropertyAttribute) in requestProperties)
                 {
                     var uriKey = WebUtility.UrlEncode($"{{{jsonPropertyAttribute.PropertyName}}}");
                     var queryKey = WebUtility.UrlEncode(jsonPropertyAttribute.PropertyName);
-                    var value = WebUtility.UrlEncode(property.GetValue(request).ToString());
+                    var propertyValue = property.GetValue(request);
+                    var value = propertyValue switch
+                    {
+                        Enum _ => WebUtility.UrlEncode(JToken.FromObject(propertyValue, jsonSerializer).ToString()),
+                        _ => WebUtility.UrlEncode(propertyValue.ToString())
+                    };
 
-                    if (uriKey != null && uriBuilder.Path.Contains(uriKey))
+                    if (uriBuilder.Path.Contains(uriKey))
                     {
                         uriBuilder.Path = uriBuilder.Path.Replace(uriKey, value);
                     }
-                    else if (queryKey != null)
+                    else
                     {
                         queryParams.Add(queryKey, value);
                     }
                 }
 
-                if (queryParams.Count > 0)
-                {
-                    uriBuilder.Query = string.Join("&", queryParams.Select(x => $"{x.Key}={x.Value}"));
-                }
+                uriBuilder.Query = string.Join("&", queryParams.Select(x => $"{x.Key}={x.Value}"));
             }
 
             return uriBuilder.Uri;
         }
 
-        private static Tuple<Uri, string> BuildJsonBodyUri<T>(string endpoint, T request)
+        private static (Uri, string) BuildJsonBodyUri<T>(string endpoint, T request)
         {
             var uriBuilder = new UriBuilder(endpoint);
             var requestBody = new JObject();
@@ -94,21 +101,21 @@ namespace OpenAIToUnity.Infrastructure.Network
                     var uriKey = WebUtility.UrlEncode($"{{{jsonPropertyAttribute.PropertyName}}}");
                     var bodyKey = jsonPropertyAttribute.PropertyName;
 
-                    if (uriKey != null && uriBuilder.Path.Contains(uriKey))
+                    if (uriBuilder.Path.Contains(uriKey))
                     {
                         uriBuilder.Path = uriBuilder.Path.Replace(uriKey, WebUtility.UrlEncode(property.GetValue(request).ToString()));
                     }
-                    else if (bodyKey != null)
+                    else
                     {
                         requestBody[bodyKey] = JToken.FromObject(property.GetValue(request), jsonSerializer);
                     }
                 }
             }
 
-            return new Tuple<Uri, string>(uriBuilder.Uri, requestBody.ToString());
+            return (uriBuilder.Uri, requestBody.ToString());
         }
 
-        private static Tuple<Uri, MultipartFormDataContent> BuildFormBodyUri<T>(string endpoint, T request)
+        private static (Uri, MultipartFormDataContent) BuildFormBodyUri<T>(string endpoint, T request)
         {
             var uriBuilder = new UriBuilder(endpoint);
             var requestBody = new MultipartFormDataContent();
@@ -122,21 +129,34 @@ namespace OpenAIToUnity.Infrastructure.Network
                     .Where(x => x.Attribute != null)
                     .ToList();
 
+                var jsonSerializer = new JsonSerializer
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
                 foreach (var (property, jsonPropertyAttribute) in requestProperties)
                 {
                     var uriKey = WebUtility.UrlEncode($"{{{jsonPropertyAttribute.PropertyName}}}");
                     var bodyKey = jsonPropertyAttribute.PropertyName;
 
-                    if (uriKey != null && uriBuilder.Path.Contains(uriKey))
+                    if (uriBuilder.Path.Contains(uriKey))
                     {
                         uriBuilder.Path = uriBuilder.Path.Replace(uriKey, WebUtility.UrlEncode(property.GetValue(request).ToString()));
                     }
-                    else if (bodyKey != null)
+                    else
                     {
                         var propertyValue = property.GetValue(request);
 
                         switch (propertyValue)
                         {
+                            case Enum _:
+                                {
+                                    var enumValue = JToken.FromObject(propertyValue, jsonSerializer).ToString();
+
+                                    requestBody.Add(new StringContent(enumValue), bodyKey);
+
+                                    break;
+                                }
                             case FileStream fileStream:
                                 {
                                     var mediaType = MediaTypeMap.GetMediaType(Path.GetExtension(fileStream.Name));
@@ -150,18 +170,20 @@ namespace OpenAIToUnity.Infrastructure.Network
                                     break;
                                 }
                             default:
-                                requestBody.Add(new StringContent(propertyValue.ToString()), bodyKey);
+                                {
+                                    requestBody.Add(new StringContent(propertyValue.ToString()), bodyKey);
 
-                                break;
+                                    break;
+                                }
                         }
                     }
                 }
             }
 
-            return new Tuple<Uri, MultipartFormDataContent>(uriBuilder.Uri, requestBody);
+            return (uriBuilder.Uri, requestBody);
         }
 
-        public static async Task GetStringRequest<T1, T2>(string endpoint, T1 request, Action<T2> onSuccessCallback, Action<Error> onFailureCallback)
+        public static async Task JsonGetRequest<T1, T2>(string endpoint, T1 request, Action<T2> onSuccessCallback, Action<Error> onFailureCallback)
         {
             try
             {
@@ -188,7 +210,7 @@ namespace OpenAIToUnity.Infrastructure.Network
             }
         }
 
-        public static async Task GetStreamRequest<T1>(string endpoint, T1 request, Action<string> onSuccessCallback, Action<Error> onFailureCallback)
+        public static async Task FileGetRequest<T1>(string endpoint, T1 request, Action<string> onSuccessCallback, Action<Error> onFailureCallback)
         {
             try
             {

@@ -17,7 +17,7 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.GetStringRequest<string, ListFilesResponse>(
+                Task.Run(() => NetworkManager.JsonGetRequest<string, ListFilesResponse>(
                     OpenAIConstants.FilesEndpoint,
                     null,
                     onSuccessCallback.ToAction(),
@@ -68,7 +68,7 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.GetStringRequest(
+                Task.Run(() => NetworkManager.JsonGetRequest(
                     $"{OpenAIConstants.FilesEndpoint}/{{file_id}}",
                     request,
                     onSuccessCallback.ToAction(),
@@ -85,7 +85,7 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.GetStreamRequest(
+                Task.Run(() => NetworkManager.FileGetRequest(
                     $"{OpenAIConstants.FilesEndpoint}/{{file_id}}/content",
                     request,
                     onSuccessCallback.ToAction(),
