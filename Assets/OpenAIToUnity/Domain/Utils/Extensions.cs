@@ -9,6 +9,7 @@ using static OpenAIToUnity.Domain.Interfaces.Repositories.IFilesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IFineTunesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IImagesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IModerationsRepository;
 
 namespace OpenAIToUnity.Domain.Utils
 {
@@ -264,6 +265,20 @@ namespace OpenAIToUnity.Domain.Utils
         }
 
         public static Action<Error> ToAction(this OnDeleteFineTuneModelFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        #endregion
+
+        #region Moderations
+
+        public static Action<CreateModerationResponse> ToAction(this OnCreateModerationSuccessCallback onSuccessCallback)
+        {
+            return new Action<CreateModerationResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnCreateModerationFailureCallback onFailureCallback)
         {
             return new Action<Error>(onFailureCallback);
         }

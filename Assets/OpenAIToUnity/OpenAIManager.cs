@@ -9,6 +9,7 @@ using static OpenAIToUnity.Domain.Interfaces.Repositories.IFilesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IFineTunesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IImagesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IModerationsRepository;
 
 namespace OpenAIToUnity
 {
@@ -148,6 +149,14 @@ namespace OpenAIToUnity
             public static void DeleteFineTuneModel(DeleteFineTuneModelRequest request, OnDeleteFineTuneModelSuccessCallback onSuccessCallback, OnDeleteFineTuneModelFailureCallback onFailureCallback)
             {
                 FineTunesRepository.Instance.DeleteFineTuneModel(request, onSuccessCallback, onFailureCallback);
+            }
+        }
+
+        public static class Moderations
+        {
+            public static void CreateModeration(CreateModerationRequest request, OnCreateModerationSuccessCallback onSuccessCallback, OnCreateModerationFailureCallback onFailureCallback)
+            {
+                ModerationsRepository.Instance.CreateModeration(request, onSuccessCallback, onFailureCallback);
             }
         }
     }
