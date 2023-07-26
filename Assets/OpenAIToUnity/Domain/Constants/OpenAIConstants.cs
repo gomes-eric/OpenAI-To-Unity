@@ -18,5 +18,6 @@
         public const string AudioEndpoint = "https://api.openai.com/v1/audio";
         public const string FilesEndpoint = "https://api.openai.com/v1/files";
         public const string FineTunesEndpoint = "https://api.openai.com/v1/fine-tunes";
+        public const string ModerationsEndpoint = "https://api.openai.com/v1/moderations";
     }
 }
