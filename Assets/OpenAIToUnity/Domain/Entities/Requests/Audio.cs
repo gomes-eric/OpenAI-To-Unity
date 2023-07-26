@@ -1,11 +1,10 @@
 using System.IO;
 using Newtonsoft.Json;
 using OpenAIToUnity.Domain.Types;
-using OpenAIToUnity.Domain.Utils;
 
 namespace OpenAIToUnity.Domain.Entities.Requests
 {
-    public struct CreateTranscriptionRequest
+    public class CreateTranscriptionRequest
     {
         [JsonProperty("file")] public FileStream File { get; set; }
 
@@ -13,11 +12,11 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
         [JsonProperty("prompt")] public string Prompt { get; set; }
 
-        [JsonProperty("response_format")] public string ResponseFormat { get; set; }
+        [JsonProperty("response_format")] public AudioResponseFormat ResponseFormat { get; set; }
 
         [JsonProperty("temperature")] public string Temperature { get; set; }
 
-        [JsonProperty("language")] public string Language { get; set; }
+        [JsonProperty("language")] public Language Language { get; set; }
 
         public class Builder
         {
@@ -51,7 +50,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
             public Builder SetResponseFormat(AudioResponseFormat responseFormat)
             {
-                _request.ResponseFormat = responseFormat.ToRequest();
+                _request.ResponseFormat = responseFormat;
 
                 return this;
             }
@@ -65,7 +64,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
             public Builder SetLanguage(Language language)
             {
-                _request.Language = language.ToRequest();
+                _request.Language = language;
 
                 return this;
             }
@@ -77,7 +76,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
         }
     }
 
-    public struct CreateTranslationRequest
+    public class CreateTranslationRequest
     {
         [JsonProperty("file")] public FileStream File { get; set; }
 
@@ -85,7 +84,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
         [JsonProperty("prompt")] public string Prompt { get; set; }
 
-        [JsonProperty("response_format")] public string ResponseFormat { get; set; }
+        [JsonProperty("response_format")] public AudioResponseFormat ResponseFormat { get; set; }
 
         [JsonProperty("temperature")] public string Temperature { get; set; }
 
@@ -121,7 +120,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
             public Builder SetResponseFormat(AudioResponseFormat responseFormat)
             {
-                _request.ResponseFormat = responseFormat.ToRequest();
+                _request.ResponseFormat = responseFormat;
 
                 return this;
             }

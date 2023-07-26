@@ -2,7 +2,7 @@
 
 namespace OpenAIToUnity.Domain.Entities.Responses
 {
-    public struct Error
+    public class Error
     {
         [JsonProperty("message")] public string Message { get; set; }
 

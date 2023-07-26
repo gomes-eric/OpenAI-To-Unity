@@ -6,6 +6,7 @@ using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEditsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IEmbeddingsRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IFilesRepository;
+using static OpenAIToUnity.Domain.Interfaces.Repositories.IFineTunesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IImagesRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IModelsRepository;
 
@@ -114,6 +115,39 @@ namespace OpenAIToUnity
             public static void RetrieveFileContent(RetrieveFileContentRequest request, OnRetrieveFileContentSuccessCallback onSuccessCallback, OnRetrieveFileContentFailureCallback onFailureCallback)
             {
                 FilesRepository.Instance.RetrieveFileContent(request, onSuccessCallback, onFailureCallback);
+            }
+        }
+
+        public static class FineTunes
+        {
+            public static void CreateFineTune(CreateFineTuneRequest request, OnCreateFineTuneSuccessCallback onSuccessCallback, OnCreateFineTuneFailureCallback onFailureCallback)
+            {
+                FineTunesRepository.Instance.CreateFineTune(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void ListFineTunes(OnListFineTunesSuccessCallback onSuccessCallback, OnListFineTunesFailureCallback onFailureCallback)
+            {
+                FineTunesRepository.Instance.ListFineTunes(onSuccessCallback, onFailureCallback);
+            }
+
+            public static void RetrieveFineTune(RetrieveFineTuneRequest request, OnRetrieveFineTuneSuccessCallback onSuccessCallback, OnRetrieveFineTuneFailureCallback onFailureCallback)
+            {
+                FineTunesRepository.Instance.RetrieveFineTune(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void CancelFineTune(CancelFineTuneRequest request, OnCancelFineTuneSuccessCallback onSuccessCallback, OnCancelFineTuneFailureCallback onFailureCallback)
+            {
+                FineTunesRepository.Instance.CancelFineTune(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void ListFineTuneEvents(ListFineTuneEventsRequest request, OnListFineTuneEventsSuccessCallback onSuccessCallback, OnListFineTuneEventsFailureCallback onFailureCallback)
+            {
+                FineTunesRepository.Instance.ListFineTuneEvents(request, onSuccessCallback, onFailureCallback);
+            }
+
+            public static void DeleteFineTuneModel(DeleteFineTuneModelRequest request, OnDeleteFineTuneModelSuccessCallback onSuccessCallback, OnDeleteFineTuneModelFailureCallback onFailureCallback)
+            {
+                FineTunesRepository.Instance.DeleteFineTuneModel(request, onSuccessCallback, onFailureCallback);
             }
         }
     }

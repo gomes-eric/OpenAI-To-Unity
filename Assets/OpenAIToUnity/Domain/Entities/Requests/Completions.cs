@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace OpenAIToUnity.Domain.Entities.Requests
 {
-    public struct CreateCompletionRequest
+    public class CreateCompletionRequest
     {
         [JsonProperty("model")] public string Model { get; set; }
 

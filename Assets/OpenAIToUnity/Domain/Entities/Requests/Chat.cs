@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace OpenAIToUnity.Domain.Entities.Requests
 {
-    public struct Message
+    public class ChatRequestMessage
     {
         [JsonProperty("role")] public string Role { get; set; }
 
@@ -13,11 +13,11 @@ namespace OpenAIToUnity.Domain.Entities.Requests
 
         public class Builder
         {
-            private Message _message;
+            private ChatRequestMessage _message;
 
             public Builder()
             {
-                _message = new Message();
+                _message = new ChatRequestMessage();
             }
 
             public Builder SetRole(string role)
@@ -41,18 +41,18 @@ namespace OpenAIToUnity.Domain.Entities.Requests
                 return this;
             }
 
-            public Message Build()
+            public ChatRequestMessage Build()
             {
                 return _message;
             }
         }
     }
 
-    public struct CreateChatCompletionRequest
+    public class CreateChatCompletionRequest
     {
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("messages")] public List<Message?> Messages { get; set; }
+        [JsonProperty("messages")] public List<ChatRequestMessage> Messages { get; set; }
 
         [JsonProperty("temperature")] public float? Temperature { get; set; }
 
@@ -90,7 +90,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests
                 return this;
             }
 
-            public Builder SetMessages(List<Message?> messages)
+            public Builder SetMessages(List<ChatRequestMessage> messages)
             {
                 _request.Messages = messages;
 
