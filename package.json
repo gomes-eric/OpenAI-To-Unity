@@ -1,0 +1,36 @@
+{
+  "name": "com.unknown.openai-to-unity",
+  "displayName": "OpenAI To Unity",
+  "version": "1.0.0",
+  "description": "Open-source library that enables developers to directly utilize OpenAI models (GPT-4, DALL-E, and Codex) within the Unity Engine.",
+  "license": "MIT",
+  "licensesUrl": "https://github.com/gomes-eric/OpenAI-To-Unity/blob/master/LICENSE",
+  "author": {
+    "name": "Eric Gomes",
+    "email": "eric.gomes.dev@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomes-eric/OpenAI-To-Unity.git"
+  },
+  "main": "OpenAIManager.cs",
+  "scripts": {
+    "test": ""
+  },
+    "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "keywords": [
+    "openai",
+    "unity",
+    "wrapper"
+  ],
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
