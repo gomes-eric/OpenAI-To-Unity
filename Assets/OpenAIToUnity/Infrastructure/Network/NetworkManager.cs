@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenAIToUnity.Domain.Constants;
-using OpenAIToUnity.Domain.Entities.Responses;
+using OpenAIToUnity.Domain.Entities.Responses.Error;
 using OpenAIToUnity.Domain.Utils;
 using UnityEngine;
 

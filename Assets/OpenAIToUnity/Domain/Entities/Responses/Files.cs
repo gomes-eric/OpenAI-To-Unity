@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using OpenAIToUnity.Domain.Types;
 
-namespace OpenAIToUnity.Domain.Entities.Responses
+namespace OpenAIToUnity.Domain.Entities.Responses.Files
 {
-    public class FilesFile
+    public class File
     {
         [JsonProperty("object")] public string Object { get; set; }
 
@@ -27,7 +27,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses
     {
         [JsonProperty("object")] public string Object { get; set; }
 
-        [JsonProperty("data")] public List<FilesFile> Data { get; set; }
+        [JsonProperty("data")] public List<File> Data { get; set; }
     }
 
     public class UploadFileResponse

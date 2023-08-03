@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace OpenAIToUnity.Domain.Entities.Requests
+namespace OpenAIToUnity.Domain.Entities.Requests.Models
 {
     public class RetrieveModelRequest
     {

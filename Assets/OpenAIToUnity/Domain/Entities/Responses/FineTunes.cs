@@ -2,20 +2,20 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using OpenAIToUnity.Domain.Types;
 
-namespace OpenAIToUnity.Domain.Entities.Responses
+namespace OpenAIToUnity.Domain.Entities.Responses.FineTunes
 {
-    public class FineTuneHyperparams
+    public class Event
     {
-        [JsonProperty("n_epochs")] public int? NEpochs { get; set; }
+        [JsonProperty("object")] public string Object { get; set; }
 
-        [JsonProperty("batch_size")] public int? BatchSize { get; set; }
+        [JsonProperty("level")] public string Level { get; set; }
 
-        [JsonProperty("prompt_loss_weight")] public double? PromptLossWeight { get; set; }
+        [JsonProperty("message")] public string Message { get; set; }
 
-        [JsonProperty("learning_rate_multiplier")] public float? LearningRateMultiplier { get; set; }
+        [JsonProperty("created_at")] public int? CreatedAt { get; set; }
     }
 
-    public class FineTuneFile
+    public class File
     {
         [JsonProperty("object")] public string Object { get; set; }
 
@@ -34,34 +34,35 @@ namespace OpenAIToUnity.Domain.Entities.Responses
         [JsonProperty("status_details")] public string StatusDetails { get; set; }
     }
 
-    public class FineTuneEvent
+    public class Hyperparams
     {
-        [JsonProperty("object")] public string Object { get; set; }
+        [JsonProperty("n_epochs")] public int? NEpochs { get; set; }
 
-        [JsonProperty("level")] public string Level { get; set; }
+        [JsonProperty("batch_size")] public int? BatchSize { get; set; }
 
-        [JsonProperty("message")] public string Message { get; set; }
+        [JsonProperty("prompt_loss_weight")] public double? PromptLossWeight { get; set; }
 
-        [JsonProperty("created_at")] public int? CreatedAt { get; set; }
+        [JsonProperty("learning_rate_multiplier")] public float? LearningRateMultiplier { get; set; }
     }
 
-    public class FineTuneData
+
+    public class Data
     {
         [JsonProperty("object")] public string Object { get; set; }
 
         [JsonProperty("id")] public string Id { get; set; }
 
-        [JsonProperty("hyperparams")] public FineTuneHyperparams Hyperparams { get; set; }
+        [JsonProperty("hyperparams")] public Hyperparams Hyperparams { get; set; }
 
         [JsonProperty("organization_id")] public string OrganizationId { get; set; }
 
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("training_files")] public List<FineTuneFile> TrainingFiles { get; set; }
+        [JsonProperty("training_files")] public List<File> TrainingFiles { get; set; }
 
-        [JsonProperty("validation_files")] public List<FineTuneFile> ValidationFiles { get; set; }
+        [JsonProperty("validation_files")] public List<File> ValidationFiles { get; set; }
 
-        [JsonProperty("result_files")] public List<FineTuneFile> ResultFiles { get; set; }
+        [JsonProperty("result_files")] public List<File> ResultFiles { get; set; }
 
         [JsonProperty("created_at")] public int? CreatedAt { get; set; }
 
@@ -78,17 +79,17 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("id")] public string Id { get; set; }
 
-        [JsonProperty("hyperparams")] public FineTuneHyperparams Hyperparams { get; set; }
+        [JsonProperty("hyperparams")] public Hyperparams Hyperparams { get; set; }
 
         [JsonProperty("organization_id")] public string OrganizationId { get; set; }
 
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("training_files")] public List<FineTuneFile> TrainingFiles { get; set; }
+        [JsonProperty("training_files")] public List<File> TrainingFiles { get; set; }
 
-        [JsonProperty("validation_files")] public List<FineTuneFile> ValidationFiles { get; set; }
+        [JsonProperty("validation_files")] public List<File> ValidationFiles { get; set; }
 
-        [JsonProperty("result_files")] public List<FineTuneFile> ResultFiles { get; set; }
+        [JsonProperty("result_files")] public List<File> ResultFiles { get; set; }
 
         [JsonProperty("created_at")] public int? CreatedAt { get; set; }
 
@@ -98,14 +99,14 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("fine_tuned_model")] public string FineTunedModel { get; set; }
 
-        [JsonProperty("events")] public List<FineTuneEvent> Events { get; set; }
+        [JsonProperty("events")] public List<Event> Events { get; set; }
     }
 
     public class ListFineTunesResponse
     {
         [JsonProperty("object")] public string Object { get; set; }
 
-        [JsonProperty("data")] public List<FineTuneData> Data { get; set; }
+        [JsonProperty("data")] public List<Data> Data { get; set; }
     }
 
     public class RetrieveFineTuneResponse
@@ -114,17 +115,17 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("id")] public string Id { get; set; }
 
-        [JsonProperty("hyperparams")] public FineTuneHyperparams Hyperparams { get; set; }
+        [JsonProperty("hyperparams")] public Hyperparams Hyperparams { get; set; }
 
         [JsonProperty("organization_id")] public string OrganizationId { get; set; }
 
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("training_files")] public List<FineTuneFile> TrainingFiles { get; set; }
+        [JsonProperty("training_files")] public List<File> TrainingFiles { get; set; }
 
-        [JsonProperty("validation_files")] public List<FineTuneFile> ValidationFiles { get; set; }
+        [JsonProperty("validation_files")] public List<File> ValidationFiles { get; set; }
 
-        [JsonProperty("result_files")] public List<FineTuneFile> ResultFiles { get; set; }
+        [JsonProperty("result_files")] public List<File> ResultFiles { get; set; }
 
         [JsonProperty("created_at")] public int? CreatedAt { get; set; }
 
@@ -134,7 +135,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("fine_tuned_model")] public string FineTunedModel { get; set; }
 
-        [JsonProperty("events")] public List<FineTuneEvent> Events { get; set; }
+        [JsonProperty("events")] public List<Event> Events { get; set; }
     }
 
     public class CancelFineTuneResponse
@@ -143,17 +144,17 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("id")] public string Id { get; set; }
 
-        [JsonProperty("hyperparams")] public FineTuneHyperparams Hyperparams { get; set; }
+        [JsonProperty("hyperparams")] public Hyperparams Hyperparams { get; set; }
 
         [JsonProperty("organization_id")] public string OrganizationId { get; set; }
 
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("training_files")] public List<FineTuneFile> TrainingFiles { get; set; }
+        [JsonProperty("training_files")] public List<File> TrainingFiles { get; set; }
 
-        [JsonProperty("validation_files")] public List<FineTuneFile> ValidationFiles { get; set; }
+        [JsonProperty("validation_files")] public List<File> ValidationFiles { get; set; }
 
-        [JsonProperty("result_files")] public List<FineTuneFile> ResultFiles { get; set; }
+        [JsonProperty("result_files")] public List<File> ResultFiles { get; set; }
 
         [JsonProperty("created_at")] public int? CreatedAt { get; set; }
 
@@ -163,14 +164,14 @@ namespace OpenAIToUnity.Domain.Entities.Responses
 
         [JsonProperty("fine_tuned_model")] public string FineTunedModel { get; set; }
 
-        [JsonProperty("events")] public List<FineTuneEvent> Events { get; set; }
+        [JsonProperty("events")] public List<Event> Events { get; set; }
     }
 
     public class ListFineTuneEventsResponse
     {
         [JsonProperty("object")] public string Object { get; set; }
 
-        [JsonProperty("data")] public List<FineTuneEvent> Data { get; set; }
+        [JsonProperty("data")] public List<Event> Data { get; set; }
     }
 
     public class DeleteFineTuneModelResponse

@@ -1,4 +1,13 @@
-﻿using OpenAIToUnity.Domain.Entities.Requests;
+﻿using OpenAIToUnity.Domain.Entities.Requests.Audio;
+using OpenAIToUnity.Domain.Entities.Requests.Chat;
+using OpenAIToUnity.Domain.Entities.Requests.Completions;
+using OpenAIToUnity.Domain.Entities.Requests.Edits;
+using OpenAIToUnity.Domain.Entities.Requests.Embeddings;
+using OpenAIToUnity.Domain.Entities.Requests.Files;
+using OpenAIToUnity.Domain.Entities.Requests.FineTunes;
+using OpenAIToUnity.Domain.Entities.Requests.Images;
+using OpenAIToUnity.Domain.Entities.Requests.Models;
+using OpenAIToUnity.Domain.Entities.Requests.Moderations;
 using OpenAIToUnity.Infrastructure.Data.Repositories;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IAudioRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
@@ -28,14 +37,6 @@ namespace OpenAIToUnity
             }
         }
 
-        public static class Completions
-        {
-            public static void CreateCompletion(CreateCompletionRequest request, OnCreateCompletionSuccessCallback onSuccessCallback, OnCreateCompletionFailureCallback onFailureCallback)
-            {
-                CompletionsRepository.Instance.CreateCompletion(request, onSuccessCallback, onFailureCallback);
-            }
-        }
-
         public static class Chat
         {
             public static void CreateChatCompletion(CreateChatCompletionRequest request, OnCreateChatCompletionSuccessCallback onSuccessCallback, OnCreateChatCompletionFailureCallback onFailureCallback)
@@ -44,11 +45,11 @@ namespace OpenAIToUnity
             }
         }
 
-        public static class Edits
+        public static class Completions
         {
-            public static void CreateEdit(CreateEditRequest request, OnCreateEditSuccessCallback onSuccessCallback, OnCreateEditFailureCallback onFailureCallback)
+            public static void CreateCompletion(CreateCompletionRequest request, OnCreateCompletionSuccessCallback onSuccessCallback, OnCreateCompletionFailureCallback onFailureCallback)
             {
-                EditsRepository.Instance.CreateEdit(request, onSuccessCallback, onFailureCallback);
+                CompletionsRepository.Instance.CreateCompletion(request, onSuccessCallback, onFailureCallback);
             }
         }
 
@@ -157,6 +158,14 @@ namespace OpenAIToUnity
             public static void CreateModeration(CreateModerationRequest request, OnCreateModerationSuccessCallback onSuccessCallback, OnCreateModerationFailureCallback onFailureCallback)
             {
                 ModerationsRepository.Instance.CreateModeration(request, onSuccessCallback, onFailureCallback);
+            }
+        }
+
+        public static class Edits
+        {
+            public static void CreateEdit(CreateEditRequest request, OnCreateEditSuccessCallback onSuccessCallback, OnCreateEditFailureCallback onFailureCallback)
+            {
+                EditsRepository.Instance.CreateEdit(request, onSuccessCallback, onFailureCallback);
             }
         }
     }

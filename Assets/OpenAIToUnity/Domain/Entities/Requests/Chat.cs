@@ -1,26 +1,157 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using OpenAIToUnity.Domain.Types;
+using OpenAIToUnity.Domain.Utils;
 
-namespace OpenAIToUnity.Domain.Entities.Requests
+namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 {
-    public class ChatRequestMessage
+    public class Parameters
     {
-        [JsonProperty("role")] public string Role { get; set; }
+        [JsonProperty("type")] public string Type { get; set; }
+
+        [JsonProperty("properties")][JsonConverter(typeof(StringToJObjectConverter))] public JObject Properties { get; set; }
+
+        [JsonProperty("required")] public List<string> Required { get; set; }
+
+        public class Builder
+        {
+            private Parameters _parameters;
+
+            public Builder()
+            {
+                _parameters = new Parameters();
+            }
+
+            public Builder SetType(string type)
+            {
+                _parameters.Type = type;
+
+                return this;
+            }
+
+            public Builder SetProperties(JObject properties)
+            {
+                _parameters.Properties = properties;
+
+                return this;
+            }
+
+            public Builder SetRequired(List<string> required)
+            {
+                _parameters.Required = required;
+
+                return this;
+            }
+
+            public Parameters Build()
+            {
+                return _parameters;
+            }
+        }
+    }
+
+    public class Function
+    {
+        [JsonProperty("name")] public string Name { get; set; }
+
+        [JsonProperty("description")] public string Description { get; set; }
+
+        [JsonProperty("parameters")] public Parameters Parameters { get; set; }
+
+        public class Builder
+        {
+            private Function _function;
+
+            public Builder()
+            {
+                _function = new Function();
+            }
+
+            public Builder SetName(string name)
+            {
+                _function.Name = name;
+
+                return this;
+            }
+
+            public Builder SetDescription(string description)
+            {
+                _function.Description = description;
+
+                return this;
+            }
+
+            public Builder SetParameters(Parameters parameters)
+            {
+                _function.Parameters = parameters;
+
+                return this;
+            }
+
+            public Function Build()
+            {
+                return _function;
+            }
+        }
+    }
+
+    public class FunctionCall
+    {
+        [JsonProperty("name")] public string Name { get; set; }
+
+        [JsonProperty("arguments")][JsonConverter(typeof(StringToJObjectConverter))] public JObject Arguments { get; set; }
+
+        public class Builder
+        {
+            private FunctionCall functionCall;
+
+            public Builder()
+            {
+                functionCall = new FunctionCall();
+            }
+
+            public Builder SetName(string name)
+            {
+                functionCall.Name = name;
+
+                return this;
+            }
+
+            public Builder SetArguments(JObject arguments)
+            {
+                functionCall.Arguments = arguments;
+
+                return this;
+            }
+
+            public FunctionCall Build()
+            {
+                return functionCall;
+            }
+        }
+    }
+
+    public class Message
+    {
+        [JsonProperty("role")] public Role Role { get; set; }
 
         [JsonProperty("content")] public string Content { get; set; }
 
         [JsonProperty("name")] public string Name { get; set; }
 
+        [JsonProperty("function_call")] public FunctionCall FunctionCall { get; set; }
+
         public class Builder
         {
-            private ChatRequestMessage _message;
+            private Message _message;
 
             public Builder()
             {
-                _message = new ChatRequestMessage();
+                _message = new Message();
             }
 
-            public Builder SetRole(string role)
+            public Builder SetRole(Role role)
             {
                 _message.Role = role;
 
@@ -41,7 +172,14 @@ namespace OpenAIToUnity.Domain.Entities.Requests
                 return this;
             }
 
-            public ChatRequestMessage Build()
+            public Builder SetFunctionCall(FunctionCall functionCall)
+            {
+                _message.FunctionCall = functionCall;
+
+                return this;
+            }
+
+            public Message Build()
             {
                 return _message;
             }
@@ -52,7 +190,11 @@ namespace OpenAIToUnity.Domain.Entities.Requests
     {
         [JsonProperty("model")] public string Model { get; set; }
 
-        [JsonProperty("messages")] public List<ChatRequestMessage> Messages { get; set; }
+        [JsonProperty("messages")] public List<Message> Messages { get; set; }
+
+        [JsonProperty("functions")] public List<Function> Functions { get; set; }
+
+        [JsonProperty("function_call")] public FunctionCall FunctionCall { get; set; }
 
         [JsonProperty("temperature")] public float? Temperature { get; set; }
 
@@ -90,9 +232,23 @@ namespace OpenAIToUnity.Domain.Entities.Requests
                 return this;
             }
 
-            public Builder SetMessages(List<ChatRequestMessage> messages)
+            public Builder SetMessages(List<Message> messages)
             {
                 _request.Messages = messages;
+
+                return this;
+            }
+
+            public Builder SetFunctions(List<Function> functions)
+            {
+                _request.Functions = functions;
+
+                return this;
+            }
+
+            public Builder SetFunctionCall(FunctionCall functionCall)
+            {
+                _request.FunctionCall = functionCall;
 
                 return this;
             }

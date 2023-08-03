@@ -1,5 +1,6 @@
-﻿using OpenAIToUnity.Domain.Entities.Requests;
-using OpenAIToUnity.Domain.Entities.Responses;
+﻿using OpenAIToUnity.Domain.Entities.Requests.Models;
+using OpenAIToUnity.Domain.Entities.Responses.Error;
+using OpenAIToUnity.Domain.Entities.Responses.Models;
 
 namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {
@@ -9,11 +10,11 @@ namespace OpenAIToUnity.Domain.Interfaces.Repositories
 
         public delegate void OnListModelsFailureCallback(Error error);
 
+        public void ListModels(OnListModelsSuccessCallback onSuccessCallback, OnListModelsFailureCallback onFailureCallback);
+
         public delegate void OnRetrieveModelSuccessCallback(RetrieveModelResponse response);
 
         public delegate void OnRetrieveModelFailureCallback(Error error);
-
-        public void ListModels(OnListModelsSuccessCallback onSuccessCallback, OnListModelsFailureCallback onFailureCallback);
 
         public void RetrieveModel(RetrieveModelRequest request, OnRetrieveModelSuccessCallback onSuccessCallback, OnRetrieveModelFailureCallback onFailureCallback);
     }

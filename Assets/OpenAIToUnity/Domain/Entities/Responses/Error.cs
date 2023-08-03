@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace OpenAIToUnity.Domain.Entities.Responses
+namespace OpenAIToUnity.Domain.Entities.Responses.Error
 {
     public class Error
     {

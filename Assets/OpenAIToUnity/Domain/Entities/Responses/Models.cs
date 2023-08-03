@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace OpenAIToUnity.Domain.Entities.Responses
+namespace OpenAIToUnity.Domain.Entities.Responses.Models
 {
     public class Permission
     {
@@ -30,7 +30,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses
         [JsonProperty("is_blocking")] public bool? IsBlocking { get; set; }
     }
 
-    public class Model
+    public class Data
     {
         [JsonProperty("id")] public string Id { get; set; }
 
@@ -51,7 +51,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses
     {
         [JsonProperty("object")] public string Object { get; set; }
 
-        [JsonProperty("data")] public List<Model> Data { get; set; }
+        [JsonProperty("data")] public List<Data> Data { get; set; }
     }
 
     public class RetrieveModelResponse
