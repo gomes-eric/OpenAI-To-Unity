@@ -1,5 +1,6 @@
-using OpenAIToUnity.Domain.Entities.Requests;
-using OpenAIToUnity.Domain.Entities.Responses;
+using OpenAIToUnity.Domain.Entities.Requests.Files;
+using OpenAIToUnity.Domain.Entities.Responses.Error;
+using OpenAIToUnity.Domain.Entities.Responses.Files;
 
 namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {

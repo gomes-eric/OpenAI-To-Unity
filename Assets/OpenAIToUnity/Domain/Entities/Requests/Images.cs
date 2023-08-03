@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using OpenAIToUnity.Domain.Types;
 
-namespace OpenAIToUnity.Domain.Entities.Requests
+namespace OpenAIToUnity.Domain.Entities.Requests.Images
 {
     public class CreateImageRequest
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace OpenAIToUnity.Domain.Entities.Requests
+namespace OpenAIToUnity.Domain.Entities.Requests.FineTunes
 {
     public class CreateFineTuneRequest
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using OpenAIToUnity.Domain.Constants;
-using OpenAIToUnity.Domain.Entities.Requests;
-using OpenAIToUnity.Domain.Entities.Responses;
+using OpenAIToUnity.Domain.Entities.Requests.Files;
+using OpenAIToUnity.Domain.Entities.Responses.Files;
 using OpenAIToUnity.Domain.Interfaces.Repositories;
 using OpenAIToUnity.Domain.Utils;
 using OpenAIToUnity.Infrastructure.Network;

@@ -1,5 +1,15 @@
 ﻿using System;
-using OpenAIToUnity.Domain.Entities.Responses;
+using OpenAIToUnity.Domain.Entities.Responses.Audio;
+using OpenAIToUnity.Domain.Entities.Responses.Chat;
+using OpenAIToUnity.Domain.Entities.Responses.Completions;
+using OpenAIToUnity.Domain.Entities.Responses.Edits;
+using OpenAIToUnity.Domain.Entities.Responses.Embeddings;
+using OpenAIToUnity.Domain.Entities.Responses.Error;
+using OpenAIToUnity.Domain.Entities.Responses.Files;
+using OpenAIToUnity.Domain.Entities.Responses.FineTunes;
+using OpenAIToUnity.Domain.Entities.Responses.Images;
+using OpenAIToUnity.Domain.Entities.Responses.Models;
+using OpenAIToUnity.Domain.Entities.Responses.Moderations;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IAudioRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.IChatRepository;
 using static OpenAIToUnity.Domain.Interfaces.Repositories.ICompletionsRepository;
@@ -39,20 +49,6 @@ namespace OpenAIToUnity.Domain.Utils
 
         #endregion
 
-        #region Completions
-
-        public static Action<CreateCompletionResponse> ToAction(this OnCreateCompletionSuccessCallback onSuccessCallback)
-        {
-            return new Action<CreateCompletionResponse>(onSuccessCallback);
-        }
-
-        public static Action<Error> ToAction(this OnCreateCompletionFailureCallback onFailureCallback)
-        {
-            return new Action<Error>(onFailureCallback);
-        }
-
-        #endregion
-
         #region Chat
 
         public static Action<CreateChatCompletionResponse> ToAction(this OnCreateChatCompletionSuccessCallback onSuccessCallback)
@@ -67,14 +63,14 @@ namespace OpenAIToUnity.Domain.Utils
 
         #endregion
 
-        #region Edits
+        #region Completions
 
-        public static Action<CreateEditResponse> ToAction(this OnCreateEditSuccessCallback onSuccessCallback)
+        public static Action<CreateCompletionResponse> ToAction(this OnCreateCompletionSuccessCallback onSuccessCallback)
         {
-            return new Action<CreateEditResponse>(onSuccessCallback);
+            return new Action<CreateCompletionResponse>(onSuccessCallback);
         }
 
-        public static Action<Error> ToAction(this OnCreateEditFailureCallback onFailureCallback)
+        public static Action<Error> ToAction(this OnCreateCompletionFailureCallback onFailureCallback)
         {
             return new Action<Error>(onFailureCallback);
         }
@@ -279,6 +275,20 @@ namespace OpenAIToUnity.Domain.Utils
         }
 
         public static Action<Error> ToAction(this OnCreateModerationFailureCallback onFailureCallback)
+        {
+            return new Action<Error>(onFailureCallback);
+        }
+
+        #endregion
+
+        #region Edits
+
+        public static Action<CreateEditResponse> ToAction(this OnCreateEditSuccessCallback onSuccessCallback)
+        {
+            return new Action<CreateEditResponse>(onSuccessCallback);
+        }
+
+        public static Action<Error> ToAction(this OnCreateEditFailureCallback onFailureCallback)
         {
             return new Action<Error>(onFailureCallback);
         }

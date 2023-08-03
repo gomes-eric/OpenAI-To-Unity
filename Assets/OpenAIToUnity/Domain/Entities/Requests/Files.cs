@@ -2,7 +2,7 @@ using System.IO;
 using Newtonsoft.Json;
 using OpenAIToUnity.Domain.Types;
 
-namespace OpenAIToUnity.Domain.Entities.Requests
+namespace OpenAIToUnity.Domain.Entities.Requests.Files
 {
     public class UploadFileRequest
     {
