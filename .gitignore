@@ -72,11 +72,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Node
-/.husky/
 /node_modules/
-package.json
 package-lock.json
-commitlint.config.js
 
 # Jetbrains
 /.idea/
