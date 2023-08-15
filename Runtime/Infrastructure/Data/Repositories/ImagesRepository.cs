@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests.Images;
 using OpenAIToUnity.Domain.Interfaces.Repositories;
@@ -12,12 +12,25 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class ImagesRepository : IImagesRepository
     {
+        public ImagesRepository([NotNull] MonoBehaviour parent, [NotNull] NetworkManager networkManager, [NotNull] string url)
+        {
+            Parent = parent;
+            NetworkManager = networkManager;
+            Url = url;
+        }
+
+        private MonoBehaviour Parent { get; }
+
+        private NetworkManager NetworkManager { get; }
+
+        private string Url { get; }
+
         public void CreateImage(CreateImageRequest request, OnCreateImageSuccessCallback onSuccessCallback, OnCreateImageFailureCallback onFailureCallback)
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonPostRequest(
-                    $"{OpenAIConstants.ImagesEndpoint}/generations",
+                Parent.StartCoroutine(NetworkManager.JsonPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Images}/generations",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -33,8 +46,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.FormPostRequest(
-                    $"{OpenAIConstants.ImagesEndpoint}/edits",
+                Parent.StartCoroutine(NetworkManager.FormPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Images}/edits",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -50,8 +63,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.FormPostRequest(
-                    $"{OpenAIConstants.ImagesEndpoint}/variations",
+                Parent.StartCoroutine(NetworkManager.FormPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Images}/variations",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -62,17 +75,5 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 Debug.LogException(e);
             }
         }
-
-        #region Singleton
-
-        private static ImagesRepository _instance;
-
-        private ImagesRepository()
-        {
-        }
-
-        public static ImagesRepository Instance => _instance ??= new ImagesRepository();
-
-        #endregion
     }
 }

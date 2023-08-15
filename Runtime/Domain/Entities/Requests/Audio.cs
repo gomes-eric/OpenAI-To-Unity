@@ -6,6 +6,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Audio
 {
     public class CreateTranscriptionRequest
     {
+        private CreateTranscriptionRequest()
+        {
+        }
+
         [JsonProperty("file")] public FileStream File { get; set; }
 
         [JsonProperty("model")] public string Model { get; set; }
@@ -20,12 +24,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Audio
 
         public class Builder
         {
-            private CreateTranscriptionRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateTranscriptionRequest();
-            }
+            private readonly CreateTranscriptionRequest _request = new();
 
             public Builder SetFile(FileStream file)
             {
@@ -78,6 +77,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Audio
 
     public class CreateTranslationRequest
     {
+        private CreateTranslationRequest()
+        {
+        }
+
         [JsonProperty("file")] public FileStream File { get; set; }
 
         [JsonProperty("model")] public string Model { get; set; }
@@ -90,12 +93,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Audio
 
         public class Builder
         {
-            private CreateTranslationRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateTranslationRequest();
-            }
+            private readonly CreateTranslationRequest _request = new();
 
             public Builder SetFile(FileStream file)
             {

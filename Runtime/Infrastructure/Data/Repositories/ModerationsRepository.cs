@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests.Moderations;
 using OpenAIToUnity.Domain.Interfaces.Repositories;
@@ -12,12 +12,25 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class ModerationsRepository : IModerationsRepository
     {
+        public ModerationsRepository([NotNull] MonoBehaviour parent, [NotNull] NetworkManager networkManager, [NotNull] string url)
+        {
+            Parent = parent;
+            NetworkManager = networkManager;
+            Url = url;
+        }
+
+        private MonoBehaviour Parent { get; }
+
+        private NetworkManager NetworkManager { get; }
+
+        private string Url { get; }
+
         public void CreateModeration(CreateModerationRequest request, OnCreateModerationSuccessCallback onSuccessCallback, OnCreateModerationFailureCallback onFailureCallback)
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonPostRequest(
-                    OpenAIConstants.ModerationsEndpoint,
+                Parent.StartCoroutine(NetworkManager.JsonPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Moderations}",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -28,17 +41,5 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 Debug.LogException(e);
             }
         }
-
-        #region Singleton
-
-        private static ModerationsRepository _instance;
-
-        private ModerationsRepository()
-        {
-        }
-
-        public static ModerationsRepository Instance => _instance ??= new ModerationsRepository();
-
-        #endregion
     }
 }

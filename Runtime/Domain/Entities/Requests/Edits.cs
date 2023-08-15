@@ -4,6 +4,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Edits
 {
     public class CreateEditRequest
     {
+        private CreateEditRequest()
+        {
+        }
+
         [JsonProperty("model")] public string Model { get; set; }
 
         [JsonProperty("input")] public string Input { get; set; }
@@ -18,12 +22,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Edits
 
         public class Builder
         {
-            private CreateEditRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateEditRequest();
-            }
+            private readonly CreateEditRequest _request = new();
 
             public Builder SetModel(string model)
             {

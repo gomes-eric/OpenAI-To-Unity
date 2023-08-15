@@ -8,6 +8,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 {
     public class Parameters
     {
+        private Parameters()
+        {
+        }
+
         [JsonProperty("type")] public string Type { get; set; }
 
         [JsonProperty("properties")][JsonConverter(typeof(StringToJObjectConverter))] public JObject Properties { get; set; }
@@ -16,12 +20,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 
         public class Builder
         {
-            private Parameters _parameters;
-
-            public Builder()
-            {
-                _parameters = new Parameters();
-            }
+            private readonly Parameters _parameters = new();
 
             public Builder SetType(string type)
             {
@@ -53,6 +52,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 
     public class Function
     {
+        private Function()
+        {
+        }
+
         [JsonProperty("name")] public string Name { get; set; }
 
         [JsonProperty("description")] public string Description { get; set; }
@@ -61,12 +64,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 
         public class Builder
         {
-            private Function _function;
-
-            public Builder()
-            {
-                _function = new Function();
-            }
+            private readonly Function _function = new();
 
             public Builder SetName(string name)
             {
@@ -98,18 +96,17 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 
     public class FunctionCall
     {
+        private FunctionCall()
+        {
+        }
+
         [JsonProperty("name")] public string Name { get; set; }
 
         [JsonProperty("arguments")][JsonConverter(typeof(StringToJObjectConverter))] public JObject Arguments { get; set; }
 
         public class Builder
         {
-            private FunctionCall functionCall;
-
-            public Builder()
-            {
-                functionCall = new FunctionCall();
-            }
+            private readonly FunctionCall functionCall = new();
 
             public Builder SetName(string name)
             {
@@ -134,6 +131,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 
     public class Message
     {
+        private Message()
+        {
+        }
+
         [JsonProperty("role")] public Role Role { get; set; }
 
         [JsonProperty("content")] public string Content { get; set; }
@@ -144,12 +145,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 
         public class Builder
         {
-            private Message _message;
-
-            public Builder()
-            {
-                _message = new Message();
-            }
+            private readonly Message _message = new();
 
             public Builder SetRole(Role role)
             {
@@ -188,6 +184,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 
     public class CreateChatCompletionRequest
     {
+        private CreateChatCompletionRequest()
+        {
+        }
+
         [JsonProperty("model")] public string Model { get; set; }
 
         [JsonProperty("messages")] public List<Message> Messages { get; set; }
@@ -218,12 +218,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Chat
 
         public class Builder
         {
-            private CreateChatCompletionRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateChatCompletionRequest();
-            }
+            private readonly CreateChatCompletionRequest _request = new();
 
             public Builder SetModel(string model)
             {

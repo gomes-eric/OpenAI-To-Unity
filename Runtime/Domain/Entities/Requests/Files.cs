@@ -6,18 +6,17 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Files
 {
     public class UploadFileRequest
     {
+        private UploadFileRequest()
+        {
+        }
+
         [JsonProperty("file")] public FileStream File { get; set; }
 
         [JsonProperty("purpose")] public Purpose Purpose { get; set; }
 
         public class Builder
         {
-            private UploadFileRequest _request;
-
-            public Builder()
-            {
-                _request = new UploadFileRequest();
-            }
+            private readonly UploadFileRequest _request = new();
 
             public Builder SetFile(FileStream file)
             {
@@ -42,16 +41,15 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Files
 
     public class DeleteFileRequest
     {
+        private DeleteFileRequest()
+        {
+        }
+
         [JsonProperty("file_id")] public string FileId { get; set; }
 
         public class Builder
         {
-            private DeleteFileRequest _request;
-
-            public Builder()
-            {
-                _request = new DeleteFileRequest();
-            }
+            private readonly DeleteFileRequest _request = new();
 
             public Builder SetFileId(string fileId)
             {
@@ -69,16 +67,15 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Files
 
     public class RetrieveFileRequest
     {
+        private RetrieveFileRequest()
+        {
+        }
+
         [JsonProperty("file_id")] public string FileId { get; set; }
 
         public class Builder
         {
-            private RetrieveFileRequest _request;
-
-            public Builder()
-            {
-                _request = new RetrieveFileRequest();
-            }
+            private readonly RetrieveFileRequest _request = new();
 
             public Builder SetFileId(string fileId)
             {
@@ -96,16 +93,15 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Files
 
     public class RetrieveFileContentRequest
     {
+        private RetrieveFileContentRequest()
+        {
+        }
+
         [JsonProperty("file_id")] public string FileId { get; set; }
 
         public class Builder
         {
-            private RetrieveFileContentRequest _request;
-
-            public Builder()
-            {
-                _request = new RetrieveFileContentRequest();
-            }
+            private readonly RetrieveFileContentRequest _request = new();
 
             public Builder SetFileId(string fileId)
             {

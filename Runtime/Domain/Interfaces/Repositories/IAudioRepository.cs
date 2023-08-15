@@ -1,6 +1,7 @@
 using OpenAIToUnity.Domain.Entities.Requests.Audio;
 using OpenAIToUnity.Domain.Entities.Responses.Audio;
 using OpenAIToUnity.Domain.Entities.Responses.Error;
+using UnityEngine;
 
 namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {

@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests.Audio;
 using OpenAIToUnity.Domain.Interfaces.Repositories;
@@ -12,12 +12,25 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class AudioRepository : IAudioRepository
     {
+        public AudioRepository([NotNull] MonoBehaviour parent, [NotNull] NetworkManager networkManager, [NotNull] string url)
+        {
+            Parent = parent;
+            NetworkManager = networkManager;
+            Url = url;
+        }
+
+        private MonoBehaviour Parent { get; }
+
+        private NetworkManager NetworkManager { get; }
+
+        private string Url { get; }
+
         public void CreateTranscription(CreateTranscriptionRequest request, OnCreateTranscriptionSuccessCallback onSuccessCallback, OnCreateTranscriptionFailureCallback onFailureCallback)
         {
             try
             {
-                Task.Run(() => NetworkManager.FormPostRequest(
-                    $"{OpenAIConstants.AudioEndpoint}/transcriptions",
+                Parent.StartCoroutine(NetworkManager.FormPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Audio}/transcriptions",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -33,8 +46,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.FormPostRequest(
-                    $"{OpenAIConstants.AudioEndpoint}/translations",
+                Parent.StartCoroutine(NetworkManager.FormPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Audio}/translations",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -45,17 +58,5 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 Debug.LogException(e);
             }
         }
-
-        #region Singleton
-
-        private static AudioRepository _instance;
-
-        private AudioRepository()
-        {
-        }
-
-        public static AudioRepository Instance => _instance ??= new AudioRepository();
-
-        #endregion
     }
 }

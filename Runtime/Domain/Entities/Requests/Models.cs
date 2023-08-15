@@ -4,16 +4,15 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Models
 {
     public class RetrieveModelRequest
     {
+        private RetrieveModelRequest()
+        {
+        }
+
         [JsonProperty("model")] public string Model { get; set; }
 
         public class Builder
         {
-            private RetrieveModelRequest _request;
-
-            public Builder()
-            {
-                _request = new RetrieveModelRequest();
-            }
+            private readonly RetrieveModelRequest _request = new();
 
             public Builder SetModel(string model)
             {

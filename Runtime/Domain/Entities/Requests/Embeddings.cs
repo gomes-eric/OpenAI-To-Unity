@@ -5,6 +5,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Embeddings
 {
     public class CreateEmbeddingsRequest
     {
+        private CreateEmbeddingsRequest()
+        {
+        }
+
         [JsonProperty("model")] public string Model { get; set; }
 
         [JsonProperty("input")] public List<string> Input { get; set; }
@@ -13,12 +17,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Embeddings
 
         public class Builder
         {
-            private CreateEmbeddingsRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateEmbeddingsRequest();
-            }
+            private readonly CreateEmbeddingsRequest _request = new();
 
             public Builder SetModel(string model)
             {

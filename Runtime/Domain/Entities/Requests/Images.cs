@@ -6,6 +6,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Images
 {
     public class CreateImageRequest
     {
+        private CreateImageRequest()
+        {
+        }
+
         [JsonProperty("prompt")] public string Prompt { get; set; }
 
         [JsonProperty("n")] public int? N { get; set; }
@@ -18,12 +22,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Images
 
         public class Builder
         {
-            private CreateImageRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateImageRequest();
-            }
+            private readonly CreateImageRequest _request = new();
 
             public Builder SetPrompt(string prompt)
             {
@@ -69,6 +68,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Images
 
     public class CreateImageEditRequest
     {
+        private CreateImageEditRequest()
+        {
+        }
+
         [JsonProperty("image")] public FileStream Image { get; set; }
 
         [JsonProperty("mask")] public FileStream Mask { get; set; }
@@ -85,12 +88,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Images
 
         public class Builder
         {
-            private CreateImageEditRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateImageEditRequest();
-            }
+            private readonly CreateImageEditRequest _request = new();
 
             public Builder SetImage(FileStream image)
             {
@@ -150,6 +148,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Images
 
     public class CreateImageVariationRequest
     {
+        private CreateImageVariationRequest()
+        {
+        }
+
         [JsonProperty("image")] public FileStream Image { get; set; }
 
         [JsonProperty("n")] public int? N { get; set; }
@@ -162,12 +164,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Images
 
         public class Builder
         {
-            private CreateImageVariationRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateImageVariationRequest();
-            }
+            private readonly CreateImageVariationRequest _request = new();
 
             public Builder SetImage(FileStream image)
             {

@@ -18,7 +18,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses.Files
 
         [JsonProperty("created_at")] public int? CreatedAt { get; set; }
 
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public FilesStatus Status { get; set; }
 
         [JsonProperty("status_details")] public string StatusDetails { get; set; }
     }
@@ -44,7 +44,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses.Files
 
         [JsonProperty("created_at")] public int? CreatedAt { get; set; }
 
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public FilesStatus Status { get; set; }
 
         [JsonProperty("status_details")] public string StatusDetails { get; set; }
     }
@@ -72,7 +72,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses.Files
 
         [JsonProperty("created_at")] public int? CreatedAt { get; set; }
 
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public FilesStatus Status { get; set; }
 
         [JsonProperty("status_details")] public string StatusDetails { get; set; }
     }

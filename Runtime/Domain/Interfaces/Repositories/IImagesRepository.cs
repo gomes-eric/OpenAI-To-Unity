@@ -1,6 +1,7 @@
 ﻿using OpenAIToUnity.Domain.Entities.Requests.Images;
 using OpenAIToUnity.Domain.Entities.Responses.Error;
 using OpenAIToUnity.Domain.Entities.Responses.Images;
+using UnityEngine;
 
 namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {

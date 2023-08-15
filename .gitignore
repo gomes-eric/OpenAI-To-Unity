@@ -73,7 +73,9 @@ crashlytics-build.properties
 
 # Node
 /node_modules/
+node_modules.meta
 package-lock.json
+package-lock.json.meta
 
 # Jetbrains
 /.idea/

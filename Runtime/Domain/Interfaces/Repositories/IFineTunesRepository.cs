@@ -1,6 +1,7 @@
 using OpenAIToUnity.Domain.Entities.Requests.FineTunes;
 using OpenAIToUnity.Domain.Entities.Responses.Error;
 using OpenAIToUnity.Domain.Entities.Responses.FineTunes;
+using UnityEngine;
 
 namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {

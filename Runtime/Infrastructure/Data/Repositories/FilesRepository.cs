@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests.Files;
 using OpenAIToUnity.Domain.Entities.Responses.Files;
@@ -13,12 +13,25 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class FilesRepository : IFilesRepository
     {
+        public FilesRepository([NotNull] MonoBehaviour parent, [NotNull] NetworkManager networkManager, [NotNull] string url)
+        {
+            Parent = parent;
+            NetworkManager = networkManager;
+            Url = url;
+        }
+
+        private MonoBehaviour Parent { get; }
+
+        private NetworkManager NetworkManager { get; }
+
+        private string Url { get; }
+
         public void ListFiles(OnListFilesSuccessCallback onSuccessCallback, OnListFilesFailureCallback onFailureCallback)
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonGetRequest<string, ListFilesResponse>(
-                    OpenAIConstants.FilesEndpoint,
+                Parent.StartCoroutine(NetworkManager.JsonGetRequest<string, ListFilesResponse>(
+                    $"{Url}/{OpenAIConstants.Endpoints.Files}",
                     null,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -34,8 +47,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.FormPostRequest(
-                    OpenAIConstants.FilesEndpoint,
+                Parent.StartCoroutine(NetworkManager.FormPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Files}",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -51,8 +64,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.DeleteRequest(
-                    $"{OpenAIConstants.FilesEndpoint}/{{file_id}}",
+                Parent.StartCoroutine(NetworkManager.DeleteRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Files}/{{file_id}}",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -68,8 +81,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonGetRequest(
-                    $"{OpenAIConstants.FilesEndpoint}/{{file_id}}",
+                Parent.StartCoroutine(NetworkManager.JsonGetRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Files}/{{file_id}}",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -85,8 +98,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.FileGetRequest(
-                    $"{OpenAIConstants.FilesEndpoint}/{{file_id}}/content",
+                Parent.StartCoroutine(NetworkManager.FileGetRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Files}/{{file_id}}/content",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -97,17 +110,5 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 Debug.LogException(e);
             }
         }
-
-        #region Singleton
-
-        private static FilesRepository _instance;
-
-        private FilesRepository()
-        {
-        }
-
-        public static FilesRepository Instance => _instance ??= new FilesRepository();
-
-        #endregion
     }
 }

@@ -5,6 +5,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Completions
 {
     public class CreateCompletionRequest
     {
+        private CreateCompletionRequest()
+        {
+        }
+
         [JsonProperty("model")] public string Model { get; set; }
 
         [JsonProperty("prompt")] public List<string> Prompt { get; set; }
@@ -39,12 +43,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Completions
 
         public class Builder
         {
-            private CreateCompletionRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateCompletionRequest();
-            }
+            private readonly CreateCompletionRequest _request = new();
 
             public Builder SetModel(string model)
             {

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests.Chat;
 using OpenAIToUnity.Domain.Interfaces.Repositories;
@@ -12,12 +12,25 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class ChatRepository : IChatRepository
     {
+        public ChatRepository([NotNull] MonoBehaviour parent, [NotNull] NetworkManager networkManager, [NotNull] string url)
+        {
+            Parent = parent;
+            NetworkManager = networkManager;
+            Url = url;
+        }
+
+        private MonoBehaviour Parent { get; }
+
+        private NetworkManager NetworkManager { get; }
+
+        private string Url { get; }
+
         public void CreateChatCompletion(CreateChatCompletionRequest request, OnCreateChatCompletionSuccessCallback onSuccessCallback, OnCreateChatCompletionFailureCallback onFailureCallback)
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonPostRequest(
-                    $"{OpenAIConstants.ChatEndpoint}/completions",
+                Parent.StartCoroutine(NetworkManager.JsonPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Chat}/completions",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -28,17 +41,5 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 Debug.LogException(e);
             }
         }
-
-        #region Singleton
-
-        private static ChatRepository _instance;
-
-        private ChatRepository()
-        {
-        }
-
-        public static ChatRepository Instance => _instance ??= new ChatRepository();
-
-        #endregion
     }
 }
