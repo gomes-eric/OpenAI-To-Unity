@@ -29,7 +29,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses.FineTunes
 
         [JsonProperty("created_at")] public int? CreatedAt { get; set; }
 
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public FineTunesStatus Status { get; set; }
 
         [JsonProperty("status_details")] public string StatusDetails { get; set; }
     }
@@ -68,7 +68,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses.FineTunes
 
         [JsonProperty("updated_at")] public int? UpdatedAt { get; set; }
 
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public FineTunesStatus Status { get; set; }
 
         [JsonProperty("fine_tuned_model")] public string FineTunedModel { get; set; }
     }
@@ -95,7 +95,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses.FineTunes
 
         [JsonProperty("updated_at")] public int? UpdatedAt { get; set; }
 
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public FineTunesStatus Status { get; set; }
 
         [JsonProperty("fine_tuned_model")] public string FineTunedModel { get; set; }
 
@@ -131,7 +131,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses.FineTunes
 
         [JsonProperty("updated_at")] public int? UpdatedAt { get; set; }
 
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public FineTunesStatus Status { get; set; }
 
         [JsonProperty("fine_tuned_model")] public string FineTunedModel { get; set; }
 
@@ -160,7 +160,7 @@ namespace OpenAIToUnity.Domain.Entities.Responses.FineTunes
 
         [JsonProperty("updated_at")] public int? UpdatedAt { get; set; }
 
-        [JsonProperty("status")] public string Status { get; set; }
+        [JsonProperty("status")] public FineTunesStatus Status { get; set; }
 
         [JsonProperty("fine_tuned_model")] public string FineTunedModel { get; set; }
 

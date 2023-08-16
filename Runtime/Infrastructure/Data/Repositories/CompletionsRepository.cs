@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests.Completions;
 using OpenAIToUnity.Domain.Interfaces.Repositories;
@@ -12,12 +12,25 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class CompletionsRepository : ICompletionsRepository
     {
+        public CompletionsRepository([NotNull] MonoBehaviour parent, [NotNull] NetworkManager networkManager, [NotNull] string url)
+        {
+            Parent = parent;
+            NetworkManager = networkManager;
+            Url = url;
+        }
+
+        private MonoBehaviour Parent { get; }
+
+        private NetworkManager NetworkManager { get; }
+
+        private string Url { get; }
+
         public void CreateCompletion(CreateCompletionRequest request, OnCreateCompletionSuccessCallback onSuccessCallback, OnCreateCompletionFailureCallback onFailureCallback)
         {
             try
             {
-                Task.Run(async () => await NetworkManager.JsonPostRequest(
-                    OpenAIConstants.CompletionsEndpoint,
+                Parent.StartCoroutine(NetworkManager.JsonPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Completions}",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -28,17 +41,5 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 Debug.LogException(e);
             }
         }
-
-        #region Singleton
-
-        private static CompletionsRepository _instance;
-
-        private CompletionsRepository()
-        {
-        }
-
-        public static CompletionsRepository Instance => _instance ??= new CompletionsRepository();
-
-        #endregion
     }
 }

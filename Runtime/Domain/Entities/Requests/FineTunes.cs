@@ -5,6 +5,10 @@ namespace OpenAIToUnity.Domain.Entities.Requests.FineTunes
 {
     public class CreateFineTuneRequest
     {
+        private CreateFineTuneRequest()
+        {
+        }
+
         [JsonProperty("training_file")] public string TrainingFile { get; set; }
 
         [JsonProperty("validation_file")] public string ValidationFile { get; set; }
@@ -31,12 +35,7 @@ namespace OpenAIToUnity.Domain.Entities.Requests.FineTunes
 
         public class Builder
         {
-            private CreateFineTuneRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateFineTuneRequest();
-            }
+            private readonly CreateFineTuneRequest _request = new();
 
             public Builder SetTrainingFile(string trainingFile)
             {
@@ -131,16 +130,15 @@ namespace OpenAIToUnity.Domain.Entities.Requests.FineTunes
 
     public class RetrieveFineTuneRequest
     {
+        private RetrieveFineTuneRequest()
+        {
+        }
+
         [JsonProperty("fine_tune_id")] public string FineTuneId { get; set; }
 
         public class Builder
         {
-            private RetrieveFineTuneRequest _request;
-
-            public Builder()
-            {
-                _request = new RetrieveFineTuneRequest();
-            }
+            private readonly RetrieveFineTuneRequest _request = new();
 
             public Builder SetFineTuneId(string fineTuneId)
             {
@@ -158,16 +156,15 @@ namespace OpenAIToUnity.Domain.Entities.Requests.FineTunes
 
     public class CancelFineTuneRequest
     {
+        private CancelFineTuneRequest()
+        {
+        }
+
         [JsonProperty("fine_tune_id")] public string FineTuneId { get; set; }
 
         public class Builder
         {
-            private CancelFineTuneRequest _request;
-
-            public Builder()
-            {
-                _request = new CancelFineTuneRequest();
-            }
+            private readonly CancelFineTuneRequest _request = new();
 
             public Builder SetFineTuneId(string fineTuneId)
             {
@@ -185,18 +182,17 @@ namespace OpenAIToUnity.Domain.Entities.Requests.FineTunes
 
     public class ListFineTuneEventsRequest
     {
+        private ListFineTuneEventsRequest()
+        {
+        }
+
         [JsonProperty("fine_tune_id")] public string FineTuneId { get; set; }
 
         [JsonProperty("stream")] public bool? Stream { get; set; }
 
         public class Builder
         {
-            private ListFineTuneEventsRequest _request;
-
-            public Builder()
-            {
-                _request = new ListFineTuneEventsRequest();
-            }
+            private readonly ListFineTuneEventsRequest _request = new();
 
             public Builder SetFineTuneId(string fineTuneId)
             {
@@ -221,16 +217,15 @@ namespace OpenAIToUnity.Domain.Entities.Requests.FineTunes
 
     public class DeleteFineTuneModelRequest
     {
+        private DeleteFineTuneModelRequest()
+        {
+        }
+
         [JsonProperty("model")] public string Model { get; set; }
 
         public class Builder
         {
-            private DeleteFineTuneModelRequest _request;
-
-            public Builder()
-            {
-                _request = new DeleteFineTuneModelRequest();
-            }
+            private readonly DeleteFineTuneModelRequest _request = new();
 
             public Builder SetModel(string model)
             {

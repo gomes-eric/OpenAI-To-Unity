@@ -1,6 +1,7 @@
 using OpenAIToUnity.Domain.Entities.Requests.Moderations;
 using OpenAIToUnity.Domain.Entities.Responses.Error;
 using OpenAIToUnity.Domain.Entities.Responses.Moderations;
+using UnityEngine;
 
 namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {

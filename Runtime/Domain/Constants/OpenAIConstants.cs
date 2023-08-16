@@ -2,22 +2,42 @@
 {
     public static class OpenAIConstants
     {
-        // Configuration
-        public const string ApiKey = "YOUR_API_KEY";
-        public const string CacheFolderPath = @"YOUR_CACHE_FOLDER_PATH";
-        public const string AuthenticationScheme = "Bearer";
-        public const int SecondsTimeout = 60;
+        public static class Settings
+        {
+            public const string DefaultProtocol = "https";
+            public const string DefaultDomain = "api.openai.com";
+            public const string DefaultVersion = "v1";
+        }
 
-        // Endpoints
-        public const string ModelsEndpoint = "https://api.openai.com/v1/models";
-        public const string CompletionsEndpoint = "https://api.openai.com/v1/completions";
-        public const string ChatEndpoint = "https://api.openai.com/v1/chat";
-        public const string EditsEndpoint = "https://api.openai.com/v1/edits";
-        public const string ImagesEndpoint = "https://api.openai.com/v1/images";
-        public const string EmbeddingsEndpoint = "https://api.openai.com/v1/embeddings";
-        public const string AudioEndpoint = "https://api.openai.com/v1/audio";
-        public const string FilesEndpoint = "https://api.openai.com/v1/files";
-        public const string FineTunesEndpoint = "https://api.openai.com/v1/fine-tunes";
-        public const string ModerationsEndpoint = "https://api.openai.com/v1/moderations";
+        public static class Environment
+        {
+            public const string ApiKey = "OPENAI_API_KEY";
+            public const string OrganizationId = "OPENAI_ORGANIZATION_ID ";
+        }
+
+        public static class Endpoints
+        {
+            public const string Models = "models";
+            public const string Completions = "completions";
+            public const string Chat = "chat";
+            public const string Edits = "edits";
+            public const string Images = "images";
+            public const string Embeddings = "embeddings";
+            public const string Audio = "audio";
+            public const string Files = "files";
+            public const string FineTunes = "fine-tunes";
+            public const string Moderations = "moderations";
+        }
+
+        public static class Http
+        {
+            public const string Accept = "Accept";
+            public const string Authorization = "Authorization";
+            public const string Bearer = "Bearer";
+            public const string ContentDisposition = "Content-Disposition";
+            public const string ContentType = "Content-Type";
+            public const string OpenAIOrganization = "OpenAI-Organization";
+            public const int SecondsTimeout = 60;
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace OpenAIToUnity.Domain.Entities.Responses.Error
 
         [JsonProperty("code")] public string Code { get; set; }
 
-        [JsonProperty("http_error")] public string HttpError { get; set; }
+        [JsonProperty("http_error_message")] public string HttpErrorMessage { get; set; }
+
+        [JsonProperty("http_error_code")] public string HttpErrorCode { get; set; }
     }
 }

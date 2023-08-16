@@ -5,18 +5,17 @@ namespace OpenAIToUnity.Domain.Entities.Requests.Moderations
 {
     public class CreateModerationRequest
     {
+        private CreateModerationRequest()
+        {
+        }
+
         [JsonProperty("input")] public List<string> Input { get; set; }
 
         [JsonProperty("model")] public string Model { get; set; }
 
         public class Builder
         {
-            private CreateModerationRequest _request;
-
-            public Builder()
-            {
-                _request = new CreateModerationRequest();
-            }
+            private readonly CreateModerationRequest _request = new();
 
             public Builder SetInput(List<string> input)
             {

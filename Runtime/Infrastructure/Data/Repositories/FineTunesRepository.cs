@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests.FineTunes;
 using OpenAIToUnity.Domain.Entities.Responses.FineTunes;
@@ -13,12 +13,25 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class FineTunesRepository : IFineTunesRepository
     {
+        public FineTunesRepository([NotNull] MonoBehaviour parent, [NotNull] NetworkManager networkManager, [NotNull] string url)
+        {
+            Parent = parent;
+            NetworkManager = networkManager;
+            Url = url;
+        }
+
+        private MonoBehaviour Parent { get; }
+
+        private NetworkManager NetworkManager { get; }
+
+        private string Url { get; }
+
         public void CreateFineTune(CreateFineTuneRequest request, OnCreateFineTuneSuccessCallback onSuccessCallback, OnCreateFineTuneFailureCallback onFailureCallback)
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonPostRequest(
-                    OpenAIConstants.FineTunesEndpoint,
+                Parent.StartCoroutine(NetworkManager.JsonPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.FineTunes}",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -34,8 +47,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonGetRequest<string, ListFineTunesResponse>(
-                    OpenAIConstants.FineTunesEndpoint,
+                Parent.StartCoroutine(NetworkManager.JsonGetRequest<string, ListFineTunesResponse>(
+                    $"{Url}/{OpenAIConstants.Endpoints.FineTunes}",
                     null,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -51,8 +64,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonGetRequest(
-                    $"{OpenAIConstants.FineTunesEndpoint}/{{fine_tune_id}}",
+                Parent.StartCoroutine(NetworkManager.JsonGetRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.FineTunes}/{{fine_tune_id}}",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -68,8 +81,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonPostRequest(
-                    $"{OpenAIConstants.FineTunesEndpoint}/{{fine_tune_id}}/cancel",
+                Parent.StartCoroutine(NetworkManager.JsonPostRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.FineTunes}/{{fine_tune_id}}/cancel",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -85,8 +98,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonGetRequest(
-                    $"{OpenAIConstants.FineTunesEndpoint}/{{fine_tune_id}}/events",
+                Parent.StartCoroutine(NetworkManager.JsonGetRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.FineTunes}/{{fine_tune_id}}/events",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -102,8 +115,8 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
         {
             try
             {
-                Task.Run(() => NetworkManager.DeleteRequest(
-                    $"{OpenAIConstants.ModelsEndpoint}/{{model}}",
+                Parent.StartCoroutine(NetworkManager.DeleteRequest(
+                    $"{Url}/{OpenAIConstants.Endpoints.Models}/{{model}}",
                     request,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -114,17 +127,5 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
                 Debug.LogException(e);
             }
         }
-
-        #region Singleton
-
-        private static FineTunesRepository _instance;
-
-        private FineTunesRepository()
-        {
-        }
-
-        public static FineTunesRepository Instance => _instance ??= new FineTunesRepository();
-
-        #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using OpenAIToUnity.Domain.Entities.Requests.Chat;
 using OpenAIToUnity.Domain.Entities.Responses.Chat;
 using OpenAIToUnity.Domain.Entities.Responses.Error;
+using UnityEngine;
 
 namespace OpenAIToUnity.Domain.Interfaces.Repositories
 {

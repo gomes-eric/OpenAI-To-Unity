@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenAIToUnity.Domain.Constants;
 using OpenAIToUnity.Domain.Entities.Requests.Models;
 using OpenAIToUnity.Domain.Entities.Responses.Models;
@@ -13,12 +13,25 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 {
     public class ModelsRepository : IModelsRepository
     {
+        public ModelsRepository([NotNull] MonoBehaviour parent, [NotNull] NetworkManager networkManager, [NotNull] string url)
+        {
+            Parent = parent;
+            NetworkManager = networkManager;
+            Url = url;
+        }
+
+        private MonoBehaviour Parent { get; }
+
+        private NetworkManager NetworkManager { get; }
+
+        private string Url { get; }
+
         public void ListModels(OnListModelsSuccessCallback onSuccessCallback, OnListModelsFailureCallback onFailureCallback)
         {
             try
             {
-                Task.Run(() => NetworkManager.JsonGetRequest<string, ListModelsResponse>(
-                    OpenAIConstants.ModelsEndpoint,
+                Parent.StartCoroutine(NetworkManager.JsonGetRequest<string, ListModelsResponse>(
+                    $"{Url}/{OpenAIConstants.Endpoints.Models}",
                     null,
                     onSuccessCallback.ToAction(),
                     onFailureCallback.ToAction()
@@ -32,24 +45,12 @@ namespace OpenAIToUnity.Infrastructure.Data.Repositories
 
         public void RetrieveModel(RetrieveModelRequest request, OnRetrieveModelSuccessCallback onSuccessCallback, OnRetrieveModelFailureCallback onFailureCallback)
         {
-            Task.Run(() => NetworkManager.JsonGetRequest(
-                $"{OpenAIConstants.ModelsEndpoint}/{{model}}",
+            Parent.StartCoroutine(NetworkManager.JsonGetRequest(
+                $"{Url}/{OpenAIConstants.Endpoints.Models}/{{model}}",
                 request,
                 onSuccessCallback.ToAction(),
                 onFailureCallback.ToAction()
             ));
         }
-
-        #region Singleton
-
-        private static ModelsRepository _instance;
-
-        private ModelsRepository()
-        {
-        }
-
-        public static ModelsRepository Instance => _instance ??= new ModelsRepository();
-
-        #endregion
     }
 }
